@@ -48,6 +48,32 @@ public class AuthenticationService {
         .build();
   }
 
+
+  public AuthenticationResponse registerAdmins(RegisterRequest request) {
+    var user = User.builder()
+        .firstname(request.getFirstname())
+        .lastname(request.getLastname())
+        .email(request.getEmail())
+        .phone(request.getPhone())
+        .address(request.getAddress())
+        .age(request.getAge())
+        .sexe(request.getSexe())
+        .cin(request.getCin())
+        .coinjoint(request.getCoinjoint())
+        .password(passwordEncoder.encode(request.getPassword()))
+        .role(Role.ROLE_ADMIN)
+        .build();
+    var savedUser = repository.save(user);
+    var jwtToken = jwtService.generateToken(user);
+    saveUserToken(savedUser, jwtToken);
+    return AuthenticationResponse.builder()
+        .token(jwtToken)
+        .build();
+  }
+
+
+
+
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(

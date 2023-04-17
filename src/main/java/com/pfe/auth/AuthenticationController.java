@@ -2,15 +2,10 @@ package com.pfe.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.pfe.user.UserService;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,7 +17,6 @@ public class AuthenticationController {
 
 
     private final AuthenticationService service;
-    private final UserService userService;
 
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
@@ -30,24 +24,19 @@ public class AuthenticationController {
   ) {
     return ResponseEntity.ok(service.register(request));
   }
+
+
+  @PostMapping("/registerAdmins")
+    public ResponseEntity<AuthenticationResponse> registerAdmins(
+        @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(service.registerAdmins(request));
+    }
+
   @PostMapping("/authenticate")
   public ResponseEntity<AuthenticationResponse> authenticate(
       @RequestBody AuthenticationRequest request
   ) {
     return ResponseEntity.ok(service.authenticate(request));
-  }
-
-  @GetMapping("/all")
-  public ResponseEntity<?> getAllUsers() {
-      
-      return ResponseEntity.ok(userService.getAllUsers());
-
-  }
-
-  @GetMapping("/user/{id}")
-  public ResponseEntity<?> getUserByid(@PathVariable Integer id) {
-      
-      return ResponseEntity.ok(userService.getUserById(id));
-
   }
 }
