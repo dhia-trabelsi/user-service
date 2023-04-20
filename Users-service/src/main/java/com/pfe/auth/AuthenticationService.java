@@ -10,6 +10,8 @@ import com.pfe.config.JwtService;
 import com.pfe.token.Token;
 import com.pfe.token.TokenRepository;
 import com.pfe.token.TokenType;
+import com.pfe.user.Child;
+import com.pfe.user.ChildRepository;
 import com.pfe.user.Role;
 import com.pfe.user.User;
 import com.pfe.user.UserRepository;
@@ -25,6 +27,7 @@ public class AuthenticationService {
 
 
     private final UserRepository repository;
+    private final ChildRepository childRepository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
@@ -48,6 +51,18 @@ public class AuthenticationService {
         .role(Role.ROLE_USER)
         .societeId(request.getSocieteId())
         .build();
+
+
+        for (RegisterRequest.ChildDto childDto : request.getChildren()) {
+          Child child = Child.builder()
+                  .name(childDto.getName())
+                  .birthDate(childDto.getAge())
+                  .build();
+          user.getChildren().add(child);
+        }
+
+      childRepository.saveAll(user.getChildren());
+
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
@@ -58,6 +73,8 @@ public class AuthenticationService {
 
 
   public AuthenticationResponse registerAdmins(RegisterRequest request) {
+   
+   
     var user = User.builder()
         .firstname(request.getFirstname())
         .lastname(request.getLastname())
@@ -71,6 +88,17 @@ public class AuthenticationService {
         .password(passwordEncoder.encode(request.getPassword()))
         .role(Role.ROLE_ADMIN)
         .build();
+
+        for (RegisterRequest.ChildDto childDto : request.getChildren()) {
+            Child child = Child.builder()
+                    .name(childDto.getName())
+                    .birthDate(childDto.getAge())
+                    .build();
+            user.getChildren().add(child);
+        }
+
+        childRepository.saveAll(user.getChildren());
+
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);

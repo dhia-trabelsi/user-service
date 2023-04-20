@@ -5,10 +5,16 @@ package com.pfe.auth;
 
 
 
+import java.util.Date;
+import java.util.List;
+
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @Builder
@@ -29,6 +35,20 @@ public class RegisterRequest {
     private String coinjoint;
     private int societeId;
 
+    private List<ChildDto> children;
+
+    
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ChildDto {
+
+        private String name;
+        private Date age;
+        
+        
+    }
 
 
     
