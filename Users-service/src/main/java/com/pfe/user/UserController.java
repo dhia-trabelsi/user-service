@@ -21,81 +21,69 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
-    
+
     private final AuthenticationService service;
 
     private final UserService userService;
-    
-   
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-        @RequestBody RegisterRequest request
-    ) {
-      return ResponseEntity.ok(service.register(request));
+            @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(service.register(request));
     }
-  
-  
+
     @PostMapping("/registerAdmins")
-      public ResponseEntity<AuthenticationResponse> registerAdmins(
-          @RequestBody RegisterRequest request
-      ) {
-          return ResponseEntity.ok(service.registerAdmins(request));
-      }
-  
+    public ResponseEntity<AuthenticationResponse> registerAdmins(
+            @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(service.registerAdmins(request));
+    }
+
     @GetMapping("/role")
     public ResponseEntity<?> getAllUsersWithRole(@RequestParam Role role) {
-        
-        if(userService.getAllUsersWithRole(role) == null){
+
+        if (userService.getAllUsersWithRole(role) == null) {
             return ResponseEntity.notFound().build();
-        }
-        else{
+        } else {
             return ResponseEntity.ok(userService.getAllUsersWithRole(role));
         }
     }
 
-
     @GetMapping("/email")
     public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
-        
-        if(userService.getUserByEmail(email) == null){
+
+        if (userService.getUserByEmail(email) == null) {
             return ResponseEntity.notFound().build();
-        }
-        else{
+        } else {
             return ResponseEntity.ok(userService.getUserByEmail(email));
         }
 
     }
 
-
     @GetMapping("/all")
     public ResponseEntity<?> getAllUsers() {
-        if(userService.getAllUsers() == null){
+        if (userService.getAllUsers() == null) {
             return ResponseEntity.notFound().build();
-        }
-        else{
+        } else {
             return ResponseEntity.ok(userService.getAllUsers());
         }
     }
-  
+
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUserByid(@PathVariable Integer id) {
-        
-        if(userService.getUserById(id) == null){
+
+        if (userService.getUserById(id) == null) {
             return ResponseEntity.notFound().build();
-        }
-        else{
+        } else {
             return ResponseEntity.ok(userService.getUserById(id));
         }
-        
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Integer id) {
-        if(userService.updateUser(user, id) == null){
+        if (userService.updateUser(user, id) == null) {
             return ResponseEntity.notFound().build();
-        }
-        else{
+        } else {
             return ResponseEntity.ok(userService.updateUser(user, id));
         }
     }
@@ -106,20 +94,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/BySocieteIDAndRole")
     public ResponseEntity<?> getAllUsersBySocieteIDAndRole(@RequestParam int societeId, @RequestParam Role role) {
-        if(userService.getUsersBySocieteID(societeId, role) == null){
+        if (userService.getUsersBySocieteID(societeId, role) == null) {
             return ResponseEntity.notFound().build();
-        }
-        else{
+        } else {
             System.out.println(userService.getUsersBySocieteID(societeId, role));
             return ResponseEntity.ok(userService.getUsersBySocieteID(societeId, role));
         }
     }
-
-
-
-    
 
 }

@@ -1,6 +1,5 @@
 package com.pfe.auth;
 
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,31 +11,24 @@ import com.pfe.token.TokenRepository;
 import com.pfe.token.TokenType;
 import com.pfe.user.Child;
 import com.pfe.user.ChildRepository;
+import com.pfe.user.ChldDto;
 import com.pfe.user.Role;
 import com.pfe.user.User;
 import com.pfe.user.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    
-  
-  
 
-
-    private final UserRepository repository;
-    private final ChildRepository childRepository;
+  private final UserRepository repository;
+  private final ChildRepository childRepository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
-
-       
-
     var user = User.builder()
         .firstname(request.getFirstname())
         .lastname(request.getLastname())
@@ -52,17 +44,20 @@ public class AuthenticationService {
         .societeId(request.getSocieteId())
         .build();
 
+    System.out.println("Request children: " + request.getChildren());
 
-        for (RegisterRequest.ChildDto childDto : request.getChildren()) {
-          Child child = Child.builder()
-                  .name(childDto.getName())
-                  .birthDate(childDto.getAge())
-                  .build();
-          user.getChildren().add(child);
-        }
-
+    if (request.getChildren() != null) {
+      for (ChldDto childDto : request.getChildren()) {
+        Child child = Child.builder()
+            .name(childDto.getName())
+            .birthDate(childDto.getBirthDate())
+            .build();
+        user.getChildren().add(child);
+      }
+    }
+    if (request.getChildren() != null) {
       childRepository.saveAll(user.getChildren());
-
+    }
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
@@ -71,10 +66,7 @@ public class AuthenticationService {
         .build();
   }
 
-
   public AuthenticationResponse registerAdmins(RegisterRequest request) {
-   
-   
     var user = User.builder()
         .firstname(request.getFirstname())
         .lastname(request.getLastname())
@@ -89,16 +81,19 @@ public class AuthenticationService {
         .role(Role.ROLE_ADMIN)
         .build();
 
-        for (RegisterRequest.ChildDto childDto : request.getChildren()) {
-            Child child = Child.builder()
-                    .name(childDto.getName())
-                    .birthDate(childDto.getAge())
-                    .build();
-            user.getChildren().add(child);
-        }
-
-        childRepository.saveAll(user.getChildren());
-
+    if (request.getChildren() != null) {
+      System.out.println("children not null");
+      for (ChldDto childDto : request.getChildren()) {
+        Child child = Child.builder()
+            .name(childDto.getName())
+            .birthDate(childDto.getBirthDate())
+            .build();
+        user.getChildren().add(child);
+      }
+    }
+    if (request.getChildren() != null) {
+      childRepository.saveAll(user.getChildren());
+    }
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
@@ -107,16 +102,11 @@ public class AuthenticationService {
         .build();
   }
 
-
-
-
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
-            request.getPassword()
-        )
-    );
+            request.getPassword()));
     var user = repository.findByEmail(request.getEmail())
         .orElseThrow();
     var jwtToken = jwtService.generateToken(user);

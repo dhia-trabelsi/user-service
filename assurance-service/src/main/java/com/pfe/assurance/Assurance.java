@@ -1,11 +1,13 @@
 package com.pfe.assurance;
 
 import java.sql.Date;
+import java.util.List;
 
-import com.pfe.acte.Acte;
-
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pfe.Societe.Societe;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -21,37 +23,27 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "ASSURANCE")
 public class Assurance {
-	
-	@Id @Column(length = 4, name = "COD_ASSUR")
-	//@OneToMany(mappedBy = "Cod_Assur", targetEntity = Acte.class)
-	private String Cod_Assur;
-	@Column(length = 4, name = "COD_SOC")
-	private String Cod_Soc;
-	@Column(length = 100, name = "LIB_ASSUR")
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long Cod_Assur;
+
+	@JsonIgnore
+	@OneToMany
+	private List<Societe> societe;
+
 	private String Lib_Assur;
-	@Column(length = 100, name = "LIB_ASSUR_A")
 	private String Lib_Assur_A;
-	@Column(length = 20, name = "NUM_POLICE")
 	private String Num_Police;
-	@Column(length = 1, name = "TYP_PLAFOND")
 	private String Typ_Plafond;
-	@Column(length = 20, name = "TEL_ASSUR")
 	private String Tel_Assur;
-	@Column(length = 20, name = "FAX_ASSUR")
 	private String Fax_Assur;
-	@Column(length = 2, name = "PREFIXE")
 	private String Prefixe;
-	@Column(name = "DUREE_BULT_MUT")
-	private double Duree_Bult_Mut; 
-	@Column(name = "TAUX_MUT")
+	private double Duree_Bult_Mut;
 	private double Taux_Mut;
-	@Column(name = "PLAF_MUT")
 	private double Plaf_Mut;
-	@Column(name = "DAT_CONTRAT")
 	private Date Dat_Contrat;
-	@Column(name = "DELAI_CVISITE")
 	private int Delai_Cvisite;
-	@Column(name = "AGE_BETWEEN_ENF")
 	private int Age_Between_Enf;
 	
 	/*

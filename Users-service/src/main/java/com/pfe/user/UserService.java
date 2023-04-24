@@ -1,6 +1,5 @@
 package com.pfe.user;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -8,18 +7,16 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class UserService{
+public class UserService {
 
-    
     private final UserRepository repository;
-    
 
     public List<UserDTO> getAllUsersWithRole(Role role) {
-        List<User> users =  repository.findAllByRole(role);
+        List<User> users = repository.findAllByRole(role);
         List<UserDTO> usersDTO = users.stream()
-                                        .map(this::convertToDTO)
-                                            .collect(Collectors.toList());
-                        return usersDTO;
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return usersDTO;
     }
 
     public UserDTO getUserByEmail(String email) {
@@ -31,15 +28,15 @@ public class UserService{
     public List<UserDTO> getAllUsers() {
         List<User> users = repository.findAll();
         List<UserDTO> usersDTO = users.stream()
-                                        .map(this::convertToDTO)
-                                            .collect(Collectors.toList());
-                        return usersDTO;
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return usersDTO;
     }
 
     public UserDTO getUserById(Integer id) {
-         User user = repository.findById(id).orElseThrow();
-         UserDTO userDTO = convertToDTO(user);
-            return userDTO;
+        User user = repository.findById(id).orElseThrow();
+        UserDTO userDTO = convertToDTO(user);
+        return userDTO;
     }
 
     public void deleteUserById(Integer id) {
@@ -62,10 +59,9 @@ public class UserService{
                     return repository.save(u);
                 })
                 .orElseThrow(
-                    () -> new RuntimeException("User not found")
-                );
+                        () -> new RuntimeException("User not found"));
     }
-    
+
     private UserDTO convertToDTO(User user) {
         return UserDTO.builder()
                 .id(user.getId())
@@ -79,17 +75,17 @@ public class UserService{
                 .age(user.getAge())
                 .coinjoint(user.getCoinjoint())
                 .role(user.getRole())
+                .societeId(user.getSocieteId())
+                .children(user.getChildren())
                 .build();
-}
-
+    }
 
     public List<UserDTO> getUsersBySocieteID(Integer societeId, Role role) {
         List<User> users = repository.findAllBySocieteIdAndRole(societeId, role);
         List<UserDTO> usersDTO = users.stream()
-                                        .map(this::convertToDTO)
-                                            .collect(Collectors.toList());
-                        return usersDTO;
-    } 
-
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return usersDTO;
+    }
 
 }

@@ -1,27 +1,18 @@
 package com.pfe.auth;
 
-
-
-
-
-
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-
-
-
+import com.pfe.user.ChldDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-    
 
     private String cin;
     private String firstname;
@@ -34,22 +25,6 @@ public class RegisterRequest {
     private String password;
     private String coinjoint;
     private int societeId;
+    private List<ChldDto> children = new ArrayList<>();
 
-    private List<ChildDto> children;
-
-    
-    @Data
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ChildDto {
-
-        private String name;
-        private Date age;
-        
-        
-    }
-
-
-    
 }

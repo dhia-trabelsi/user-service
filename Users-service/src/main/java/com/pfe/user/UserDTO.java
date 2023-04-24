@@ -1,5 +1,8 @@
 package com.pfe.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,5 +25,7 @@ public class UserDTO {
   private String address;
   private Integer age;
   private String coinjoint;
-    private Role role;
+  private Role role;
+  private int societeId;
+  private List<Child> children = new ArrayList<>();
 }
