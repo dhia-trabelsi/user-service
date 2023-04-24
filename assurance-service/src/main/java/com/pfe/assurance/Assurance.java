@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Assurance {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long Cod_Assur;
 
 	@JsonIgnore

@@ -45,5 +45,33 @@ public class SocieteService {
         return  societeRepository.findAll();
     }
 
+    public void delete(int id) {
+        societeRepository.deleteById(id);
+    }
+
+    public Societe updateSociete(int id,Societe societe){
+        Societe societeToUpdate = societeRepository.findById(id).orElseThrow();
+        societeToUpdate.builder()
+            .Lib(societe.getLib())
+            .LibA(societe.getLibA())
+            .Adresse(societe.getAdresse())
+            .AdresseA(societe.getAdresseA())
+            .Tel(societe.getTel())
+            .Fax(societe.getFax())
+            .CodeTva(societe.getCodeTva())
+            .CodeRetr(societe.getCodeRetr())
+            .NumRetr(societe.getNumRetr())
+            .RepWeb(societe.getRepWeb())
+            .Regime(societe.getRegime())
+            .NumPolice(societe.getNumPolice())
+            .AdrElectronique(societe.getAdrElectronique())
+            .CodPay(societe.getCodPay())
+            .AgeMin(societe.getAgeMin())
+            .AgeMax(societe.getAgeMax())
+            .build();
+            societeRepository.save(societeToUpdate);
+            return societeToUpdate;
+    }
+
     
 }
