@@ -1,14 +1,9 @@
 package com.pfe.Societe;
 
-
-import com.pfe.assurance.Assurance;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "SOCIETE")
 public class Societe {
-
     
     @Id @GeneratedValue (strategy = GenerationType.AUTO)
     private int Cod;
@@ -44,33 +38,4 @@ public class Societe {
     private String CodPay;
     private int AgeMin;
     private int AgeMax;
-
-    @ManyToOne
-    @JoinColumn(name = "assurance_cod")
-    private Assurance assurance;
-
-
-    
-
-
-    /*
-    COD_SOC VARCHAR2(4) NOT NULL,
-    LIB_SOC VARCHAR2(100),
-    LIB_SOC_A VARCHAR2(100),
-    ADR_SOC VARCHAR2(100),
-    ADR_SOC_A VARCHAR2(100),
-    TEL_SOC VARCHAR2(20),
-    FAX_SOC VARCHAR2(20),
-    COD_TVA VARCHAR2(20),
-    COD_RETR VARCHAR2(10),
-    NUM_RETR VARCHAR2(10),
-    REP_WEB VARCHAR2(1),
-    REGIME VARCHAR2(1),
-    NUM_POLICE VARCHAR2(25),
-    ADR_ELECTRONIQUE VARCHAR2(100),
-    COD_PAY VARCHAR2(4),
-    AGE_MIN NUMBER(3),
-    AGE_MAX NUMBER(3),
-    */
-    
 }

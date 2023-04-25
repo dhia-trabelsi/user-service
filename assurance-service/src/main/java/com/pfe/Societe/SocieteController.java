@@ -1,7 +1,5 @@
 package com.pfe.Societe;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -18,11 +17,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/societe")
 public class SocieteController {
 
- private final SocieteService societeService;
+    private final SocieteService societeService;
 
     @PostMapping
     public Societe save(@RequestBody Societe societe) {
-    return societeService.CreateSociete(societe);
+        return societeService.CreateSociete(societe);
     }
 
     @GetMapping("/{id}")
@@ -32,7 +31,7 @@ public class SocieteController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(societeService.getAll()); 
+        return ResponseEntity.ok(societeService.getAll());
     }
 
     @PutMapping("/{id}")
@@ -45,9 +44,4 @@ public class SocieteController {
         societeService.delete(id);
         return ResponseEntity.ok().build();
     }
-
-   
-
-
-    
 }

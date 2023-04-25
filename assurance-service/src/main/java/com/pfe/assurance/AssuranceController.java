@@ -1,4 +1,4 @@
-package com.pfe.assurance;
+package com.pfe.Assurance;
 
 import java.util.List;
 
@@ -22,69 +22,67 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/assurance")
 public class AssuranceController {
 
-	private final AssuranceService assuranceService;
+    private final AssuranceService assuranceService;
 
-	@PostMapping()
-	public ResponseEntity<Assurance> save(@RequestBody Assurance assurance) {
+    @PostMapping()
+    public ResponseEntity<Assurance> save(@RequestBody Assurance assurance) {
 
-		return ResponseEntity.ok(assuranceService.save(assurance));
-	}
+        return ResponseEntity.ok(assuranceService.save(assurance));
+    }
 
-	@GetMapping("/all")
-	public ResponseEntity<List<Assurance>> getAll() {
+    @GetMapping("/all")
+    public ResponseEntity<List<Assurance>> getAll() {
 
-		if (assuranceService.getAll() == null) {
-			return ResponseEntity.notFound().build();
-		} else {
-			return ResponseEntity.ok(assuranceService.getAll());
-		}
+        if (assuranceService.getAll() == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(assuranceService.getAll());
+        }
 
-	}
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Assurance> getById(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Assurance> getById(@PathVariable Long id) {
 
-		if (assuranceService.getById(id) == null) {
-			return ResponseEntity.notFound().build();
-		} else {
-			return ResponseEntity.ok(assuranceService.getById(id));
-		}
+        if (assuranceService.getById(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(assuranceService.getById(id));
+        }
 
-	}
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
 
-		if (assuranceService.getById(id) == null) {
-			return ResponseEntity.notFound().build();
-		} else {
-			assuranceService.delete(id);
-			return ResponseEntity.ok().build();
-		}
+        if (assuranceService.getById(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            assuranceService.delete(id);
+            return ResponseEntity.ok().build();
+        }
 
-	}
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Assurance> update(@RequestBody Assurance assurance,@PathVariable Long id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Assurance> update(@RequestBody Assurance assurance, @PathVariable Long id) {
 
-		if (assuranceService.getById(id) == null) {
-			return ResponseEntity.notFound().build();
-		} else {
-			return ResponseEntity.ok(assuranceService.updateAssurance(assurance, id));
-		}
+        if (assuranceService.getById(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(assuranceService.updateAssurance(assurance, id));
+        }
 
-	}
+    }
 
-	@PostMapping("/add")
-	public ResponseEntity<Assurance> addSocieteToAssurance(@RequestBody Societe societe,@RequestParam Long id) {
+    @PostMapping("/add")
+    public ResponseEntity<Assurance> addSocieteToAssurance(@RequestBody Societe societe, @RequestParam Long id) {
 
-		if (assuranceService.getById(id) == null) {
-			return ResponseEntity.notFound().build();
-		} else {
-			return ResponseEntity.ok(assuranceService.addSociteToAssurance(societe, id));
-	}
+        if (assuranceService.getById(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(assuranceService.addSociteToAssurance(societe, id));
+        }
 
-		
-	}
-
+    }
 }
