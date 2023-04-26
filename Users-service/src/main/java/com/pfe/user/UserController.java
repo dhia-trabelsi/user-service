@@ -104,4 +104,22 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getUserByRole")
+    public ResponseEntity<?> getUserByRole(@RequestParam String email) {
+        if (userService.getUserByRole(email) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userService.getUserByRole(email));
+        }
+    }
+
+    @GetMapping("/authuser")
+    public ResponseEntity<?> getAuthUser() {
+        if (userService.getAuthenticatedUser() == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userService.getAuthenticatedUser());
+        }
+    }
+
 }

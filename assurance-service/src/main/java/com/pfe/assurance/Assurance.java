@@ -29,8 +29,7 @@ public class Assurance {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Cod_Assur;
 
-    @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "assurance")
     private List<Societe> societe;
 
     private String Lib_Assur;

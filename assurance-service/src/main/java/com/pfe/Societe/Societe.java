@@ -1,9 +1,13 @@
 package com.pfe.Societe;
 
+import com.pfe.Assurance.Assurance;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +26,8 @@ public class Societe {
     private int Cod;
 
     
+   
+    
     private String Lib;
     private String LibA;
     private String Adresse;
@@ -38,4 +44,9 @@ public class Societe {
     private String CodPay;
     private int AgeMin;
     private int AgeMax;
+
+
+    @ManyToOne
+    @JoinColumn(name = "Cod_Assur")
+    private Assurance assurance;
 }

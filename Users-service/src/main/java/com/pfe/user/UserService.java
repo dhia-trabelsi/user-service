@@ -2,6 +2,10 @@ package com.pfe.user;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -46,7 +50,6 @@ public class UserService {
     public User updateUser(User user, Integer id) {
         return repository.findById(id)
                 .map(u -> {
-
                     u.setFirstname(user.getFirstname());
                     u.setLastname(user.getLastname());
                     u.setSexe(user.getSexe());
@@ -86,6 +89,25 @@ public class UserService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
         return usersDTO;
+    }
+
+    public Role getUserByRole(String email) {
+        User user = repository.findByEmail(email).orElseThrow();
+        Role role = user.getRole();
+        return role;
+    }
+
+    public User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            return (User) principal;
+        } else {
+            return null;
+        }
     }
 
 }
