@@ -44,4 +44,9 @@ public class SocieteController {
         societeService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/getbyassurance/{id}")
+    public ResponseEntity<?> getByAssurance(@PathVariable long id) {
+        return ResponseEntity.ok(societeService.getByAssurance(id));
+    }
 }

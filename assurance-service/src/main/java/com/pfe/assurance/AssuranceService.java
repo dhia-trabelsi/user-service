@@ -69,12 +69,4 @@ public class AssuranceService {
         return assuranceToUpdate;
     }
 
-    public Assurance addSociteToAssurance(Societe s, Long assuranceId) {
-
-        Assurance assurance = assuranceRepository.findById(assuranceId).orElseThrow();
-        assurance.getSociete().add(s);
-
-        return assuranceRepository.save(assurance);
-
-    }
 }

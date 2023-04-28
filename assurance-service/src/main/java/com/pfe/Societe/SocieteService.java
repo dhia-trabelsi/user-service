@@ -30,6 +30,7 @@ public class SocieteService {
                 .CodPay(societe.getCodPay())
                 .AgeMin(societe.getAgeMin())
                 .AgeMax(societe.getAgeMax())
+                .assurance(societe.getAssurance())
                 .build();
 
         System.out.println(newSociete);
@@ -67,9 +68,14 @@ public class SocieteService {
                 .CodPay(societe.getCodPay())
                 .AgeMin(societe.getAgeMin())
                 .AgeMax(societe.getAgeMax())
+                .assurance(societe.getAssurance())
                 .build();
         societeRepository.save(societeToUpdate);
         return societeToUpdate;
+    }
+
+    public List<Societe> getByAssurance(long id){
+        return societeRepository.findAllByAssurance(id);
     }
 
 }

@@ -1,16 +1,11 @@
 package com.pfe.Assurance;
 
 import java.util.Date;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pfe.Societe.Societe;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,8 +24,7 @@ public class Assurance {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Cod_Assur;
 
-    @OneToMany(mappedBy = "assurance")
-    private List<Societe> societe;
+    
 
     private String Lib_Assur;
     private String Lib_Assur_A;
