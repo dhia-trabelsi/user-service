@@ -1,11 +1,16 @@
 package com.pfe.Borderau;
 
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pfe.Bds.Bulltin;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +36,10 @@ public class Borderau {
     private float mHonor;
     private float mNet;
     private long assur;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "bulltin")
+    private List<Bulltin> bulltins;
 
     
 }

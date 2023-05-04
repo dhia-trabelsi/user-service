@@ -10,8 +10,8 @@ public class BorderauService {
     
     private final BorderauRepository borderauRepository;
 
-    public Borderau save(Borderau borderau) {
-        
+    public Borderau prepareBorderau(Borderau borderau) {
+    
         return borderauRepository.save(borderau);
     }
 
