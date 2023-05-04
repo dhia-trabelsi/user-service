@@ -23,7 +23,7 @@ public class ActController {
     private final ActService actService;
 
     @PostMapping
-    public ResponseEntity<Act> save(@RequestBody Act act) {
+    public ResponseEntity<Act> save(@RequestBody ActDTO act) {
         return new ResponseEntity<>(actService.save(act), HttpStatus.CREATED);
 
     }

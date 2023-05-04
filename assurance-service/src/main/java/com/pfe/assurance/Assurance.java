@@ -24,8 +24,6 @@ public class Assurance {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Cod_Assur;
 
-    
-
     private String Lib_Assur;
     private String Lib_Assur_A;
     private String Num_Police;
@@ -39,5 +37,20 @@ public class Assurance {
     private Date Dat_Contrat;
     private int Delai_Cvisite;
     private int Age_Between_Enf;
+    private float mntAdher;
+    private float mntEnf;
+    private float mntConj;
+    private float mntPere;
+    private float mntMere;
+    private String ProratPec;
+
+
+
+    // MNT_ADHER NUMBER(10, 3),
+    // MNT_ENF NUMBER(10, 3),
+    // MNT_CONJ NUMBER(10, 3),
+    // MNT_PERE NUMBER(10, 3),
+    // MNT_MERE NUMBER(10, 3),
+    // PRORAT_PEC VARCHAR2(1),
 
 }

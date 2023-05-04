@@ -23,8 +23,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "typeact")
 public class TypeAct {
     
-    @Id @GeneratedValue (strategy = GenerationType.AUTO)
-    private Integer typeAct;
+    @Id
+    private int typeAct;
 
     private String lib;
 
@@ -33,4 +33,8 @@ public class TypeAct {
     @JsonIgnore
     @OneToMany(mappedBy = "typeAct")
     private List<Act> act;
+
+    public TypeAct(int typeAct) {
+        this.typeAct = typeAct;
+    }
 }

@@ -2,7 +2,7 @@ package com.pfe.Act;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.pfe.TypeAct.TypeAct;
 
 import jakarta.persistence.CascadeType;
@@ -31,24 +31,25 @@ public class Act {
 
     private String abrv;
     private String lib;
-    private String libA;
-    private String indice;
-    private float mtt;
+    
     private Date date;
     private float taux;
     private String plafonne;
+    private String ctr;
+    private String sexe;
+    private String parent;
+    
+    private String duree;
+    private String indice;
+    private float mtt;
     private float plafond;
     private String piece;
     private String vign;
-    private String ctr;
-    private float duree;
-    private String sexe;
-    private String parent;
 
     
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "typeAct")
-    private TypeAct typeAct;
+    private  TypeAct typeAct;
 
 
 }
