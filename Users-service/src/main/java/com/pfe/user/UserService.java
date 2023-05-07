@@ -1,12 +1,22 @@
 package com.pfe.user;
 
+import java.io.File;
+import java.io.IOException;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.pfe.Password.passwordService;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -14,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository repository;
+    private final passwordService service;
 
     public List<UserDTO> getAllUsersWithRole(Role role) {
         List<User> users = repository.findAllByRole(role);
@@ -80,6 +91,8 @@ public class UserService {
                 .role(user.getRole())
                 .societeId(user.getSocieteId())
                 .children(user.getChildren())
+                // .image(user.getImage())
+                .filepath(user.getFilepath())
                 .build();
     }
 
@@ -108,6 +121,43 @@ public class UserService {
         } else {
             return null;
         }
+    }
+
+    private final String FOLDER_PATH = "C:/Users/trabe/Desktop/MyFIles/";
+
+    public String uploadImageToFileSystem(MultipartFile file, int id) throws IOException {
+
+        User user = repository.findById(id).orElseThrow();
+        String filePath = FOLDER_PATH + file.getOriginalFilename();
+
+        user.setFilepath(filePath);
+        repository.save(user);
+
+        file.transferTo(new File(filePath));
+
+        return "image uploaded successfully...";
+    }
+
+
+
+    
+
+    public void createPasswordResetTokenForUser(User user, String passwordResetToken) {
+        service.createPasswordResetTokenForUser(user, passwordResetToken);
+    }
+
+    public String validatePasswordResetToken(String passwordResetRequest) {
+        return service.validatePasswordResetToken(passwordResetRequest);
+    }
+
+    public User findUserByPasswordToken(String token) {
+        return service.findUserByPasswordToken(token).get();
+    }
+
+    public void resetPassword(User user, String newPassword) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        repository.save(user);
     }
 
 }

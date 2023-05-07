@@ -1,5 +1,7 @@
 package com.pfe.user;
 
+import java.io.IOException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pfe.auth.AuthenticationResponse;
 import com.pfe.auth.AuthenticationService;
@@ -121,5 +124,16 @@ public class UserController {
             return ResponseEntity.ok(userService.getAuthenticatedUser());
         }
     }
+
+    // @PostMapping("/image/{id}")
+    // public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer id) throws IOException {
+    //     return ResponseEntity.ok(userService.uploadeImage(file,id));
+    // }
+
+    @PostMapping("/image/{id}")
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer id) throws IOException {
+        return ResponseEntity.ok(userService.uploadImageToFileSystem(file, id));
+    }
+      
 
 }

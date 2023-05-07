@@ -5,6 +5,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.pfe.auth.Util.EmailRequest;
+import com.pfe.auth.Util.EmailSender;
+import com.pfe.auth.Util.NotifSender;
 import com.pfe.config.JwtService;
 import com.pfe.token.Token;
 import com.pfe.token.TokenRepository;
@@ -27,6 +30,8 @@ public class AuthenticationService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
+  private final NotifSender notifSender;
+  private final EmailSender emailSender;
 
   public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
@@ -61,6 +66,22 @@ public class AuthenticationService {
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
+
+    String message = "nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
+        + user.getSocieteId();
+    notifSender.sendNotif(message, "NEW_ADHERENT");
+
+    EmailRequest emailRequest = new EmailRequest();
+
+    emailRequest.setTo(user.getEmail());
+    emailRequest.setSubject("Bienvenue chez nous");
+    String body = "Bonjour " + user.getFirstname() + " " + user.getLastname()
+    + ",\n\nNous vous souhaitons la bienvenue chez nous. votre Email : " + user.getEmail() +" votre mot de passe : " + request.getPassword() + "\n\nCordialement,\n\nL'équipe de gestion de la société "
+    + user.getSocieteId();
+    emailRequest.setText(body);
+
+    emailSender.sendEmail(emailRequest);
+
     return AuthenticationResponse.builder()
         .token(jwtToken)
         .build();
@@ -97,6 +118,15 @@ public class AuthenticationService {
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
+
+    String message = "nouveau admin : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
+        + user.getSocieteId();
+
+
+
+
+    notifSender.sendNotif(message, "NEW_ADMIN");
+
     return AuthenticationResponse.builder()
         .token(jwtToken)
         .build();

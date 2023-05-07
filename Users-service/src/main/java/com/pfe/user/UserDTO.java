@@ -28,4 +28,6 @@ public class UserDTO {
   private Role role;
   private int societeId;
   private List<Child> children = new ArrayList<>();
+  private byte[] image;
+  private String filepath;
 }
