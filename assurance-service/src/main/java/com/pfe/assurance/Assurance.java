@@ -44,6 +44,8 @@ public class Assurance {
     private float mntMere;
     private String ProratPec;
 
+    
+
 
 
     // MNT_ADHER NUMBER(10, 3),

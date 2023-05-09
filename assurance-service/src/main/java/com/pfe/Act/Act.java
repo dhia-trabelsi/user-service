@@ -2,7 +2,7 @@ package com.pfe.Act;
 
 import java.util.Date;
 
-
+import com.pfe.Bds.Bulltin;
 import com.pfe.TypeAct.TypeAct;
 
 import jakarta.persistence.CascadeType;
@@ -50,6 +50,10 @@ public class Act {
     @ManyToOne
     @JoinColumn(name = "typeAct")
     private  TypeAct typeAct;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Bulltin bulltin;
 
 
 }

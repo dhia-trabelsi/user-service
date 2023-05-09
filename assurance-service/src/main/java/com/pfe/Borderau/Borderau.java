@@ -37,8 +37,8 @@ public class Borderau {
     private float mNet;
     private long assur;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "bulltin")
+    
+    @OneToMany(mappedBy = "Id")
     private List<Bulltin> bulltins;
 
     
