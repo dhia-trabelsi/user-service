@@ -38,7 +38,7 @@ public class Borderau {
     private long assur;
 
     
-    @OneToMany(mappedBy = "Id")
+    @OneToMany(mappedBy = "borderau")
     private List<Bulltin> bulltins;
 
     

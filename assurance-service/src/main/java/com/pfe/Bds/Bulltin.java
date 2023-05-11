@@ -8,6 +8,7 @@ import com.pfe.Act.Act;
 import com.pfe.Borderau.Borderau;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,16 +37,13 @@ public class Bulltin {
     private long assur;
     private String prestataire;
     private Date dateSoin;
-    private int mois;
-    private int ans;
+    private Integer mois;
+    private Integer ans;
     private Date dateSaisie;
     private String valider;
 
-    
-
-
-
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "code")
     private  Borderau borderau;
 

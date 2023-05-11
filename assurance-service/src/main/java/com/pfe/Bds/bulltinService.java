@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.pfe.Borderau.Borderau;
+import com.pfe.Borderau.BorderauRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -12,9 +15,13 @@ public class bulltinService {
 
 
     private final BulltinRepository bulltinRepository;
+    private final BorderauRepository borderauRepository;
 
 
-    public Bulltin saveBulltin(Bulltin bulltin) {
+    public Bulltin saveBulltin(Bulltin bulltin, long code) {
+       Borderau b = borderauRepository.findById(code).orElseThrow(() -> new RuntimeException("Borderau not found"));
+        
+        bulltin.setBorderau(b);
         return bulltinRepository.save(bulltin);
     }
 
