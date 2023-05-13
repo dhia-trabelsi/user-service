@@ -1,8 +1,11 @@
 package com.pfe.Societe;
 
+import java.io.IOException;
 import java.util.List;
+import java.io.File;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,7 +54,7 @@ public class SocieteService {
 
     public Societe updateSociete(int id, Societe societe) {
         Societe societeToUpdate = societeRepository.findById(id).orElseThrow();
-        societeToUpdate.builder()
+        societeToUpdate = societeToUpdate.builder()
                 .Lib(societe.getLib())
                 .LibA(societe.getLibA())
                 .Adresse(societe.getAdresse())
@@ -74,8 +77,23 @@ public class SocieteService {
         return societeToUpdate;
     }
 
-    public List<Societe> getByAssurance(long id){
+    public List<Societe> getByAssurance(long id) {
         return societeRepository.findAllByAssurance(id);
+    }
+
+    private final String FOLDER_PATH = "C:/Users/trabe/Desktop/MyFIles/";
+
+    public String uploadImageToFileSystem(MultipartFile file, int id) throws IOException {
+
+        Societe societe = societeRepository.findById(id).orElseThrow();
+        String filePath = FOLDER_PATH + file.getOriginalFilename();
+
+        societe.setFilepath(filePath);
+        societeRepository.save(societe);
+
+        file.transferTo(new File(filePath));
+
+        return "image uploaded successfully...";
     }
 
 }

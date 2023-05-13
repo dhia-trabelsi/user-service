@@ -43,6 +43,7 @@ public class Assurance {
     private float mntPere;
     private float mntMere;
     private String ProratPec;
+    private String filepath;
 
     
 

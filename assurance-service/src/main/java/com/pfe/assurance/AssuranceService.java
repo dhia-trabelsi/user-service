@@ -1,11 +1,10 @@
 package com.pfe.Assurance;
 
+import java.io.IOException;
 import java.util.List;
-
+import java.io.File;
 import org.springframework.stereotype.Service;
-
-import com.pfe.Societe.Societe;
-
+import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -36,7 +35,7 @@ public class AssuranceService {
                 .mntPere(assurance.getMntPere())
                 .mntMere(assurance.getMntMere())
                 .ProratPec(assurance.getProratPec())
-                .build(); 
+                .build();
 
         return assuranceRepository.save(assuranceToSave);
     }
@@ -79,6 +78,21 @@ public class AssuranceService {
                 .build();
         assuranceRepository.save(assuranceToUpdate);
         return assuranceToUpdate;
+    }
+
+    private final String FOLDER_PATH = "C:/Users/trabe/Desktop/MyFIles/";
+
+    public String uploadImageToFileSystem(MultipartFile file, Long id) throws IOException {
+
+        Assurance assurance = assuranceRepository.findById(id).orElseThrow();
+        String filePath = FOLDER_PATH + file.getOriginalFilename();
+
+        assurance.setFilepath(filePath);
+        assuranceRepository.save(assurance);
+
+        file.transferTo(new File(filePath));
+
+        return "image uploaded successfully...";
     }
 
 }

@@ -39,5 +39,6 @@ public class Societe {
     private int AgeMin;
     private int AgeMax;
     private long assurance;
+    private String filepath;
 
 }

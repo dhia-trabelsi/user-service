@@ -6,7 +6,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pfe.Act.Act;
 import com.pfe.Borderau.Borderau;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -41,6 +40,7 @@ public class Bulltin {
     private Integer ans;
     private Date dateSaisie;
     private String valider;
+    private String filepath;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -50,5 +50,6 @@ public class Bulltin {
     
     @OneToMany(mappedBy = "Id")
     private List<Act> acts;
+
 
 }
