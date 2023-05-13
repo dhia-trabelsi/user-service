@@ -134,6 +134,16 @@ public class UserController {
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer id) throws IOException {
         return ResponseEntity.ok(userService.uploadImageToFileSystem(file, id));
     }
+
+    @GetMapping("/roleID")
+    public ResponseEntity<?> getUsersIdWithRole(@RequestParam Role role) {
+
+        if (userService.getUsersIdWithRole(role) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userService.getUsersIdWithRole(role));
+        }
+    }
       
 
 }

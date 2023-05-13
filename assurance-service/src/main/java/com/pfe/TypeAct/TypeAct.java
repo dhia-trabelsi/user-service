@@ -34,7 +34,4 @@ public class TypeAct {
     @OneToMany(mappedBy = "typeAct")
     private List<Act> act;
 
-    public TypeAct(int typeAct) {
-        this.typeAct = typeAct;
-    }
 }

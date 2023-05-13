@@ -34,6 +34,14 @@ public class UserService {
         return usersDTO;
     }
 
+    public List<Integer> getUsersIdWithRole(Role role) {
+        List<User> users = repository.findAllByRole(role);
+        List<Integer> usersId = users.stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
+        return usersId;
+    }
+
     public UserDTO getUserByEmail(String email) {
         User user = repository.findByEmail(email).orElseThrow();
         UserDTO userDTO = convertToDTO(user);
@@ -55,6 +63,7 @@ public class UserService {
     }
 
     public void deleteUserById(Integer id) {
+
         repository.deleteById(id);
     }
 
@@ -63,18 +72,36 @@ public class UserService {
                 .map(u -> {
                     u.setFirstname(user.getFirstname());
                     u.setLastname(user.getLastname());
+                    u.setCin(user.getCin());
                     u.setSexe(user.getSexe());
                     u.setEmail(user.getEmail());
                     u.setAge(user.getAge());
                     u.setAddress(user.getAddress());
                     u.setPhone(user.getPhone());
                     u.setCoinjoint(user.getCoinjoint());
-                    u.setRole(Role.ROLE_USER);
                     return repository.save(u);
                 })
                 .orElseThrow(
                         () -> new RuntimeException("User not found"));
     }
+    // public User updateUser(User user, Integer id) {
+    //     Optional<User> optionalUser = repository.findById(id);
+    //     if (optionalUser.isPresent()) {
+    //         User existingUser = optionalUser.get();
+    //         existingUser.setFirstname(user.getFirstname());
+    //         existingUser.setLastname(user.getLastname());
+    //         existingUser.setSexe(user.getSexe());
+    //         existingUser.setEmail(user.getEmail());
+    //         existingUser.setAge(user.getAge());
+    //         existingUser.setAddress(user.getAddress());
+    //         existingUser.setPhone(user.getPhone());
+    //         existingUser.setCoinjoint(user.getCoinjoint());
+    //         existingUser.setRole(user.getRole());
+    //         return repository.save(existingUser);
+    //     } else {
+    //         throw new RuntimeException("User not found");
+    //     }
+    // }
 
     private UserDTO convertToDTO(User user) {
         return UserDTO.builder()

@@ -1,5 +1,9 @@
 package com.pfe.auth;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.pfe.auth.Util.EmailRequest;
 import com.pfe.auth.Util.EmailSender;
+import com.pfe.auth.Util.NotifRequest;
 import com.pfe.auth.Util.NotifSender;
 import com.pfe.config.JwtService;
 import com.pfe.token.Token;
@@ -32,6 +37,9 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final NotifSender notifSender;
   private final EmailSender emailSender;
+
+  LocalDateTime localDateTime = LocalDateTime.now();
+  Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
   public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
@@ -67,17 +75,32 @@ public class AuthenticationService {
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
 
-    String message = "nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
-        + user.getSocieteId();
-    notifSender.sendNotif(message, "NEW_ADHERENT");
+    List<User> admins = repository.findAllByRole(Role.ROLE_SUPER_ADMIN);
+
+    NotifRequest notifRequest = new NotifRequest();
+    notifRequest.setDate(date);
+    notifRequest.setType("NEW_ADHERENT");
+
+
+    for (User admin : admins) {
+
+      notifRequest.setMessage("nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
+      + user.getSocieteId());
+      notifRequest.setUser(admin.getId());
+      notifSender.sendNotif(notifRequest);
+    }
+
+    // String message = "nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
+    //     + user.getSocieteId();
+    // notifSender.sendNotif(message, "NEW_ADHERENT");
 
     EmailRequest emailRequest = new EmailRequest();
-
     emailRequest.setTo(user.getEmail());
     emailRequest.setSubject("Bienvenue chez nous");
     String body = "Bonjour " + user.getFirstname() + " " + user.getLastname()
-    + ",\n\nNous vous souhaitons la bienvenue chez nous. votre Email : " + user.getEmail() +" votre mot de passe : " + request.getPassword() + "\n\nCordialement,\n\nL'équipe de gestion de la société "
-    + user.getSocieteId();
+        + ",\n\nNous vous souhaitons la bienvenue chez nous. votre Email : " + user.getEmail()
+        + " votre mot de passe : " + request.getPassword() + "\n\nCordialement,\n\nL'équipe de gestion de la société "
+        + user.getSocieteId();
     emailRequest.setText(body);
 
     emailSender.sendEmail(emailRequest);
@@ -119,13 +142,28 @@ public class AuthenticationService {
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
 
-    String message = "nouveau admin : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
-        + user.getSocieteId();
+///////////////////////////
+
+   
+
+    List<User> admins = repository.findAllByRole(Role.ROLE_SUPER_ADMIN);
+    
+    NotifRequest notifRequest = new NotifRequest();
+    notifRequest.setDate(date);
+    notifRequest.setType("NEW_ADMIN");
 
 
+    for (User admin : admins) {
+      notifRequest.setMessage("nouveau Admin : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
+      + user.getSocieteId());
+      notifRequest.setUser(admin.getId());
+      notifSender.sendNotif(notifRequest);
+    }
 
+    // String message = "nouveau admin : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
+    //     + user.getSocieteId();
 
-    notifSender.sendNotif(message, "NEW_ADMIN");
+    // notifSender.sendNotif(message, "NEW_ADMIN");
 
     return AuthenticationResponse.builder()
         .token(jwtToken)

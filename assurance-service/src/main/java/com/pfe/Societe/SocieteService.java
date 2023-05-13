@@ -54,28 +54,27 @@ public class SocieteService {
 
     public Societe updateSociete(int id, Societe societe) {
         Societe societeToUpdate = societeRepository.findById(id).orElseThrow();
-        societeToUpdate = societeToUpdate.builder()
-                .Lib(societe.getLib())
-                .LibA(societe.getLibA())
-                .Adresse(societe.getAdresse())
-                .AdresseA(societe.getAdresseA())
-                .Tel(societe.getTel())
-                .Fax(societe.getFax())
-                .CodeTva(societe.getCodeTva())
-                .CodeRetr(societe.getCodeRetr())
-                .NumRetr(societe.getNumRetr())
-                .RepWeb(societe.getRepWeb())
-                .Regime(societe.getRegime())
-                .NumPolice(societe.getNumPolice())
-                .AdrElectronique(societe.getAdrElectronique())
-                .CodPay(societe.getCodPay())
-                .AgeMin(societe.getAgeMin())
-                .AgeMax(societe.getAgeMax())
-                .assurance(societe.getAssurance())
-                .build();
+        societeToUpdate.setLib(societe.getLib());
+        societeToUpdate.setLibA(societe.getLibA());
+        societeToUpdate.setAdresse(societe.getAdresse());
+        societeToUpdate.setAdresseA(societe.getAdresseA());
+        societeToUpdate.setTel(societe.getTel());
+        societeToUpdate.setFax(societe.getFax());
+        societeToUpdate.setCodeTva(societe.getCodeTva());
+        societeToUpdate.setCodeRetr(societe.getCodeRetr());
+        societeToUpdate.setNumRetr(societe.getNumRetr());
+        societeToUpdate.setRepWeb(societe.getRepWeb());
+        societeToUpdate.setRegime(societe.getRegime());
+        societeToUpdate.setNumPolice(societe.getNumPolice());
+        societeToUpdate.setAdrElectronique(societe.getAdrElectronique());
+        societeToUpdate.setCodPay(societe.getCodPay());
+        societeToUpdate.setAgeMin(societe.getAgeMin());
+        societeToUpdate.setAgeMax(societe.getAgeMax());
+        societeToUpdate.setAssurance(societe.getAssurance());
         societeRepository.save(societeToUpdate);
         return societeToUpdate;
     }
+    
 
     public List<Societe> getByAssurance(long id) {
         return societeRepository.findAllByAssurance(id);
