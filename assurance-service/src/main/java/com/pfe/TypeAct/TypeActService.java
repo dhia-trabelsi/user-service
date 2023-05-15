@@ -26,7 +26,6 @@ public class TypeActService {
 
     RestTemplate restTemplate = new RestTemplate();
     String url = "http://localhost:8082/api/user/roleID?role=ROLE_ADMIN";
-    
 
     LocalDateTime localDateTime = LocalDateTime.now();
     Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -37,13 +36,13 @@ public class TypeActService {
                 .lib(typeAct.getLib())
                 .build();
 
-                ResponseEntity<List<Integer>> response = restTemplate.exchange(
-            url,
-            HttpMethod.GET,
-            null,
-            new ParameterizedTypeReference<List<Integer>>() {
-            });
-    List<Integer> userIdList = response.getBody();
+        ResponseEntity<List<Integer>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Integer>>() {
+                });
+        List<Integer> userIdList = response.getBody();
         NotifRequest notifRequest = new NotifRequest();
         notifRequest.setType("NEW_TYPEACT");
         notifRequest.setDate(date);
@@ -75,20 +74,20 @@ public class TypeActService {
         typeActToUpdate.setLib(typeAct.getLib());
         typeActRepository.save(typeActToUpdate);
         ResponseEntity<List<Integer>> response = restTemplate.exchange(
-            url,
-            HttpMethod.GET,
-            null,
-            new ParameterizedTypeReference<List<Integer>>() {
-            });
-    List<Integer> userIdList = response.getBody();
-                NotifRequest notifRequest = new NotifRequest();
-                notifRequest.setType("UPDATE_TYPEACT");
-                notifRequest.setDate(date);
-                notifRequest.setMessage("le type des actes médicaux : " + typeAct.getLib() + " est modifié");
-                for (Integer userId : userIdList) {
-                    notifRequest.setUser(userId);
-                    notifSender.sendNotif(notifRequest);
-                }
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Integer>>() {
+                });
+        List<Integer> userIdList = response.getBody();
+        NotifRequest notifRequest = new NotifRequest();
+        notifRequest.setType("UPDATE_TYPEACT");
+        notifRequest.setDate(date);
+        notifRequest.setMessage("le type des actes médicaux : " + typeAct.getLib() + " est modifié");
+        for (Integer userId : userIdList) {
+            notifRequest.setUser(userId);
+            notifSender.sendNotif(notifRequest);
+        }
         return typeActRepository.save(typeActToUpdate);
     }
 }
