@@ -144,6 +144,15 @@ public class UserController {
             return ResponseEntity.ok(userService.getUsersIdWithRole(role));
         }
     }
-      
+
+    @GetMapping("/idbyemail")
+    public ResponseEntity<?> getUserIdByEmail(@RequestParam String email) {
+
+        if (userService.getUserIdByEmail(email) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userService.getUserIdByEmail(email));
+        }
+    }
 
 }

@@ -8,6 +8,7 @@ public enum notifType {
     NEW_ACT,
     NEW_ADMIN,
     USER_DELETED,
+    Email
 
     
 }

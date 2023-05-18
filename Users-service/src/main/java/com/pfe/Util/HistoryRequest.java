@@ -1,4 +1,6 @@
-package com.pfe.auth.Util;
+package com.pfe.Util;
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailRequest {
-    
-    private String to;
-    private String subject;
-    private String text;
+public class HistoryRequest {
+    private String message;
+    private Date date;
+    private String type;
 }

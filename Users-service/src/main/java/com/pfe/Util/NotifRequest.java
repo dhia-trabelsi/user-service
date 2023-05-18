@@ -1,4 +1,4 @@
-package com.pfe.auth.Util;
+package com.pfe.Util;
 
 
 import java.util.Date;

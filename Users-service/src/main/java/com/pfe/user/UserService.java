@@ -187,4 +187,11 @@ public class UserService {
         repository.save(user);
     }
 
+    public Object getUserIdByEmail(String email) {
+        User user = repository.findByEmail(email).orElseThrow();
+        return user.getId();
+    }
+
+    
+
 }

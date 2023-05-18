@@ -13,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.pfe.TypeAct.TypeAct;
 import com.pfe.TypeAct.TypeActRepository;
+import com.pfe.util.HistoryRequest;
+import com.pfe.util.HistorySender;
 import com.pfe.util.NotifRequest;
 import com.pfe.util.NotifSender;
 
@@ -25,6 +27,7 @@ public class ActService {
         private final ActRepository actRepository;
         private final TypeActRepository typeActRepository;
         private final NotifSender notifSender;
+        private final HistorySender historySender;
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:8082/api/user/roleID?role=ROLE_ADMIN";
 
@@ -63,6 +66,14 @@ public class ActService {
             notifSender.sendNotif(notifRequest);
         }
 
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage(
+                "nouveau acte médical : " + act.getLib() + " est ajouté au type : " + existingTypeAct.getLib() + " à " + date);
+        historyRequest.setDate(date);
+        historyRequest.setType("ACT");
+        historySender.sendHistory(historyRequest);
+
+
         return actRepository.save(newAct);
 
     }
@@ -93,6 +104,11 @@ public class ActService {
             notifRequest.setUser(userId);
             notifSender.sendNotif(notifRequest);
         }
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage("acte médical : " + id + " est supprimé à " + date);
+        historyRequest.setDate(date);
+        historyRequest.setType("ACT");
+        historySender.sendHistory(historyRequest);
     }
 
     public Act update(int id, Act act) {
@@ -130,6 +146,12 @@ public class ActService {
             notifRequest.setUser(userId);
             notifSender.sendNotif(notifRequest);
         }
+
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage("acte médical : " + act.getLib() + " est modifié à " + date);
+        historyRequest.setDate(date);
+        historyRequest.setType("ACT");
+        historySender.sendHistory(historyRequest);
 
         return actRepository.save(actToUpdate);
     }

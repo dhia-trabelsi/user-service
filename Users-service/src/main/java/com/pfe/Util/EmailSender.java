@@ -1,11 +1,8 @@
-package com.pfe.auth.Util;
-
-import java.io.UnsupportedEncodingException;
-
+package com.pfe.Util;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import jakarta.mail.MessagingException;
+
 
 @Configuration
 public class EmailSender {

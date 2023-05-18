@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.pfe.util.HistoryRequest;
+import com.pfe.util.HistorySender;
 import com.pfe.util.NotifRequest;
 import com.pfe.util.NotifSender;
 
@@ -23,6 +25,7 @@ public class TypeActService {
 
     private final TypeActRepository typeActRepository;
     private final NotifSender notifSender;
+    private final HistorySender historySender;
 
     RestTemplate restTemplate = new RestTemplate();
     String url = "http://localhost:8082/api/user/roleID?role=ROLE_ADMIN";
@@ -52,6 +55,12 @@ public class TypeActService {
             notifSender.sendNotif(notifRequest);
         }
 
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage("Création du type des actes médicaux " + typeAct.getLib() + "à"+ date );
+        historyRequest.setType("TypeAct");
+        historyRequest.setDate(date);
+        historySender.sendHistory(historyRequest);
+
         return typeActRepository.save(newTypeAct);
 
     }
@@ -66,6 +75,11 @@ public class TypeActService {
 
     public void delete(int id) {
         typeActRepository.deleteById(id);
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage("Suppression du type des actes médicaux " + typeActRepository.findById(id).get().getLib() + "à"+ date);
+        historyRequest.setType("TypeAct");
+        historyRequest.setDate(date);
+        historySender.sendHistory(historyRequest);
     }
 
     public TypeAct updateTypeAct(int id, TypeAct typeAct) {
@@ -88,6 +102,12 @@ public class TypeActService {
             notifRequest.setUser(userId);
             notifSender.sendNotif(notifRequest);
         }
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage("Modification du type des actes médicaux " + typeAct.getLib() + "à"+ date );
+        historyRequest.setType("TypeAct");
+        historyRequest.setDate(date);
+        historySender.sendHistory(historyRequest);
+
         return typeActRepository.save(typeActToUpdate);
     }
 }

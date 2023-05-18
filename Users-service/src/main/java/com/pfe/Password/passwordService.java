@@ -8,8 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.pfe.auth.Util.EmailRequest;
-import com.pfe.auth.Util.EmailSender;
+import com.pfe.Util.EmailRequest;
+import com.pfe.Util.EmailSender;
 import com.pfe.user.User;
 import com.pfe.user.UserRepository;
 

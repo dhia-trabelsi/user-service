@@ -9,10 +9,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pfe.auth.Util.EmailRequest;
-import com.pfe.auth.Util.EmailSender;
-import com.pfe.auth.Util.NotifRequest;
-import com.pfe.auth.Util.NotifSender;
+import com.pfe.Util.EmailRequest;
+import com.pfe.Util.EmailSender;
+import com.pfe.Util.HistoryRequest;
+import com.pfe.Util.HistorySender;
+import com.pfe.Util.NotifRequest;
+import com.pfe.Util.NotifSender;
 import com.pfe.config.JwtService;
 import com.pfe.token.Token;
 import com.pfe.token.TokenRepository;
@@ -37,6 +39,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final NotifSender notifSender;
   private final EmailSender emailSender;
+  private final HistorySender historySender;
 
   LocalDateTime localDateTime = LocalDateTime.now();
   Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -90,10 +93,6 @@ public class AuthenticationService {
       notifSender.sendNotif(notifRequest);
     }
 
-    // String message = "nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
-    //     + user.getSocieteId();
-    // notifSender.sendNotif(message, "NEW_ADHERENT");
-
     EmailRequest emailRequest = new EmailRequest();
     emailRequest.setTo(user.getEmail());
     emailRequest.setSubject("Bienvenue chez nous");
@@ -104,6 +103,14 @@ public class AuthenticationService {
     emailRequest.setText(body);
 
     emailSender.sendEmail(emailRequest);
+
+    HistoryRequest historyRequest = new HistoryRequest();
+    historyRequest.setDate(date);
+    historyRequest.setType("ADHERENT");
+    historyRequest.setMessage("nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
+    + user.getSocieteId());
+    historySender.sendHistory(historyRequest);
+
 
     return AuthenticationResponse.builder()
         .token(jwtToken)
@@ -125,19 +132,8 @@ public class AuthenticationService {
         .role(Role.ROLE_ADMIN)
         .build();
 
-    if (request.getChildren() != null) {
-      System.out.println("children not null");
-      for (ChldDto childDto : request.getChildren()) {
-        Child child = Child.builder()
-            .name(childDto.getName())
-            .birthDate(childDto.getBirthDate())
-            .build();
-        user.getChildren().add(child);
-      }
-    }
-    if (request.getChildren() != null) {
-      childRepository.saveAll(user.getChildren());
-    }
+   
+    
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
@@ -160,10 +156,13 @@ public class AuthenticationService {
       notifSender.sendNotif(notifRequest);
     }
 
-    // String message = "nouveau admin : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
-    //     + user.getSocieteId();
+    HistoryRequest historyRequest = new HistoryRequest();
+    historyRequest.setDate(date);
+    historyRequest.setType("ADMIN");
+    historyRequest.setMessage("nouveau admin : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
+    + user.getSocieteId());
+    historySender.sendHistory(historyRequest);
 
-    // notifSender.sendNotif(message, "NEW_ADMIN");
 
     return AuthenticationResponse.builder()
         .token(jwtToken)

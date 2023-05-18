@@ -1,11 +1,18 @@
 package com.pfe.Societe;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.io.File;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.pfe.util.HistoryRequest;
+import com.pfe.util.HistorySender;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +21,12 @@ import lombok.RequiredArgsConstructor;
 public class SocieteService {
 
     private final SocieteRepository societeRepository;
+    private final HistorySender historySender;
+
+    RestTemplate restTemplate = new RestTemplate();
+
+    LocalDateTime localDateTime = LocalDateTime.now();
+        Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
     public Societe CreateSociete(Societe societe) {
         Societe newSociete = Societe.builder()
@@ -36,8 +49,13 @@ public class SocieteService {
                 .assurance(societe.getAssurance())
                 .build();
 
-        System.out.println(newSociete);
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage("Création de la société " + societe.getLib() + "à"+ date );
+        historyRequest.setType("Societe");
+        historySender.sendHistory(historyRequest);
+
         return societeRepository.save(newSociete);
+
     }
 
     public Societe getById(int id) {
@@ -49,7 +67,14 @@ public class SocieteService {
     }
 
     public void delete(int id) {
+        
+        
         societeRepository.deleteById(id);
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage("Suppression de la société " + societeRepository.findById(id).orElseThrow().getLib() + "à"+ date );
+        historyRequest.setType("Societe");
+        historySender.sendHistory(historyRequest);
+
     }
 
     public Societe updateSociete(int id, Societe societe) {
@@ -72,6 +97,11 @@ public class SocieteService {
         societeToUpdate.setAgeMax(societe.getAgeMax());
         societeToUpdate.setAssurance(societe.getAssurance());
         societeRepository.save(societeToUpdate);
+
+        HistoryRequest historyRequest = new HistoryRequest();
+        historyRequest.setMessage("Modification de la société " + societe.getLib() + "à"+ date );
+        historyRequest.setType("Societe");
+        historySender.sendHistory(historyRequest);
         return societeToUpdate;
     }
     
