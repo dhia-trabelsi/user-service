@@ -25,6 +25,8 @@ import com.pfe.user.ChldDto;
 import com.pfe.user.Role;
 import com.pfe.user.User;
 import com.pfe.user.UserRepository;
+import com.pfe.user.UserService;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthenticationService {
 
   private final UserRepository repository;
+  private final UserService userService;
   private final ChildRepository childRepository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
@@ -107,6 +110,7 @@ public class AuthenticationService {
     HistoryRequest historyRequest = new HistoryRequest();
     historyRequest.setDate(date);
     historyRequest.setType("ADHERENT");
+    historyRequest.setUser(userService.getAuthenticatedUser().getId()); 
     historyRequest.setMessage("nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
     + user.getSocieteId());
     historySender.sendHistory(historyRequest);

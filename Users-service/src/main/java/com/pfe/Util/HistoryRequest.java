@@ -15,4 +15,5 @@ public class HistoryRequest {
     private String message;
     private Date date;
     private String type;
+    private Integer user;
 }

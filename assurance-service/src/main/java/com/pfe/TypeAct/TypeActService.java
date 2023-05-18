@@ -57,7 +57,7 @@ public class TypeActService {
 
         HistoryRequest historyRequest = new HistoryRequest();
         historyRequest.setMessage("Création du type des actes médicaux " + typeAct.getLib() + "à"+ date );
-        historyRequest.setType("TypeAct");
+        historyRequest.setType("TYPEACT");
         historyRequest.setDate(date);
         historySender.sendHistory(historyRequest);
 
@@ -77,7 +77,7 @@ public class TypeActService {
         typeActRepository.deleteById(id);
         HistoryRequest historyRequest = new HistoryRequest();
         historyRequest.setMessage("Suppression du type des actes médicaux " + typeActRepository.findById(id).get().getLib() + "à"+ date);
-        historyRequest.setType("TypeAct");
+        historyRequest.setType("TYPEACT");
         historyRequest.setDate(date);
         historySender.sendHistory(historyRequest);
     }
@@ -104,7 +104,7 @@ public class TypeActService {
         }
         HistoryRequest historyRequest = new HistoryRequest();
         historyRequest.setMessage("Modification du type des actes médicaux " + typeAct.getLib() + "à"+ date );
-        historyRequest.setType("TypeAct");
+        historyRequest.setType("TYPEACT");
         historyRequest.setDate(date);
         historySender.sendHistory(historyRequest);
 

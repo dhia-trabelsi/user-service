@@ -32,4 +32,6 @@ public class History {
 
     @Enumerated(EnumType.STRING)
     private HistoryType type;
+
+    private Integer user;
 }
