@@ -74,7 +74,9 @@ public class TypeActService {
     }
 
     public void delete(int id) {
+       
         typeActRepository.deleteById(id);
+
         HistoryRequest historyRequest = new HistoryRequest();
         historyRequest.setMessage("Suppression du type des actes médicaux " + typeActRepository.findById(id).get().getLib() + "à"+ date);
         historyRequest.setType("TYPEACT");

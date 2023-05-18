@@ -110,7 +110,7 @@ public class AuthenticationService {
     HistoryRequest historyRequest = new HistoryRequest();
     historyRequest.setDate(date);
     historyRequest.setType("ADHERENT");
-    historyRequest.setUser(userService.getAuthenticatedUser().getId()); 
+    historyRequest.setUser(userService.getAuthenticatedUser().getId());
     historyRequest.setMessage("nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
     + user.getSocieteId());
     historySender.sendHistory(historyRequest);

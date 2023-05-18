@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.notification.Notification.NotifRequest;
+import com.notification.Notification.NotificationRepository;
+import com.notification.Notification.NotificationService;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -48,11 +50,15 @@ public class EmailService {
 
         javaMailSender.send(message);
 
-       NotifRequest notif = new NotifRequest();
-       notif.setMessage("vous avez recu un mail");
-         notif.setType("Email");
-         notif.setDate(date);
-         notif.setUser(restTemplate.getForObject(url + mail.getTo(), Integer.class));
+       
+        //  var notif = Notification.builder()
+        //     .notif.setMessage("vous avez recu un mail");
+        //    .notif.setType("Email");
+        //     .notif.setDate(date);
+        //     .notif.setUser(restTemplate.getForObject(url + mail.getTo(), Integer.class));
+        //     .build();
+        // notificationRepository.save(notif);
+           
     }
 
 }

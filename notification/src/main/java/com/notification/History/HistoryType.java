@@ -6,4 +6,5 @@ public enum HistoryType {
     TYPEACT,
     BULLETIN,
     BORDEREAU,
+    ADHERENT
 }

@@ -5,7 +5,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class HistorySender {
-    String url = "http://localhost:8084/history";
+    String url = "http://localhost:8084/api/history";
     private RestTemplate restTemplate = new RestTemplate();
 
 
