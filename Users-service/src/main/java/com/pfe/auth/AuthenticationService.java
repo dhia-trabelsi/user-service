@@ -66,6 +66,7 @@ public class AuthenticationService {
     System.out.println("Request children: " + request.getChildren());
 
     var savedUser = repository.save(user);
+
     if (request.getChildren() != null) {
       for (ChldDto childDto : request.getChildren()) {
         Child child = Child.builder()

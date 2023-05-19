@@ -155,4 +155,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/child/{id}")
+    public ResponseEntity<?> getChilds(@PathVariable Integer id) {
+
+        if (userService.getChilds(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userService.getChilds(id));
+        }
+    }
+
+
+
 }

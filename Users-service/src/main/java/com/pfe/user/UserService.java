@@ -25,6 +25,7 @@ public class UserService {
 
     private final UserRepository repository;
     private final passwordService service;
+    private final ChildRepository childRepository;
 
     public List<UserDTO> getAllUsersWithRole(Role role) {
         List<User> users = repository.findAllByRole(role);
@@ -84,24 +85,6 @@ public class UserService {
                 .orElseThrow(
                         () -> new RuntimeException("User not found"));
     }
-    // public User updateUser(User user, Integer id) {
-    //     Optional<User> optionalUser = repository.findById(id);
-    //     if (optionalUser.isPresent()) {
-    //         User existingUser = optionalUser.get();
-    //         existingUser.setFirstname(user.getFirstname());
-    //         existingUser.setLastname(user.getLastname());
-    //         existingUser.setSexe(user.getSexe());
-    //         existingUser.setEmail(user.getEmail());
-    //         existingUser.setAge(user.getAge());
-    //         existingUser.setAddress(user.getAddress());
-    //         existingUser.setPhone(user.getPhone());
-    //         existingUser.setCoinjoint(user.getCoinjoint());
-    //         existingUser.setRole(user.getRole());
-    //         return repository.save(existingUser);
-    //     } else {
-    //         throw new RuntimeException("User not found");
-    //     }
-    // }
 
     private UserDTO convertToDTO(User user) {
         return UserDTO.builder()
@@ -117,8 +100,6 @@ public class UserService {
                 .coinjoint(user.getCoinjoint())
                 .role(user.getRole())
                 .societeId(user.getSocieteId())
-                .children(user.getChildren())
-                // .image(user.getImage())
                 .filepath(user.getFilepath())
                 .build();
     }
@@ -129,6 +110,7 @@ public class UserService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
         return usersDTO;
+    
     }
 
     public Role getUserByRole(String email) {
@@ -190,6 +172,12 @@ public class UserService {
     public Object getUserIdByEmail(String email) {
         User user = repository.findByEmail(email).orElseThrow();
         return user.getId();
+    }
+
+    public List<Child> getChilds(Integer id) {
+        User user = repository.findById(id).orElseThrow();
+
+        return childRepository.findAllByUser(user);
     }
 
     

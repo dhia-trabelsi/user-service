@@ -1,7 +1,5 @@
 package com.pfe.user;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +25,7 @@ public class UserDTO {
   private String coinjoint;
   private Role role;
   private int societeId;
-  private List<Child> children = new ArrayList<>();
   private String filepath;
+
+  
 }

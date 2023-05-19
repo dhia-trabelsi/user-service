@@ -52,7 +52,6 @@ public class User implements UserDetails {
 
 
   @Builder.Default
-  @JsonIgnore
   @OneToMany
   private List<Child> children = new ArrayList<>();
 
