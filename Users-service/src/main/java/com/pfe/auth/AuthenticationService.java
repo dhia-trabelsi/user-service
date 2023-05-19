@@ -65,19 +65,20 @@ public class AuthenticationService {
 
     System.out.println("Request children: " + request.getChildren());
 
+    var savedUser = repository.save(user);
     if (request.getChildren() != null) {
       for (ChldDto childDto : request.getChildren()) {
         Child child = Child.builder()
             .name(childDto.getName())
             .birthDate(childDto.getBirthDate())
+            .user(savedUser)
             .build();
+            childRepository.save(child);
         user.getChildren().add(child);
       }
     }
-    if (request.getChildren() != null) {
-      childRepository.saveAll(user.getChildren());
-    }
-    var savedUser = repository.save(user);
+    
+    
     var jwtToken = jwtService.generateToken(user);
     saveUserToken(savedUser, jwtToken);
 
@@ -165,6 +166,7 @@ public class AuthenticationService {
     historyRequest.setType("ADMIN");
     historyRequest.setMessage("nouveau admin : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
     + user.getSocieteId());
+    historyRequest.setUser(userService.getAuthenticatedUser().getId());
     historySender.sendHistory(historyRequest);
 
 
@@ -183,6 +185,8 @@ public class AuthenticationService {
     var jwtToken = jwtService.generateToken(user);
     revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
+
+
     return AuthenticationResponse.builder()
         .token(jwtToken)
         .build();
