@@ -180,6 +180,11 @@ public class UserService {
         return childRepository.findAllByUser(user);
     }
 
+    public Integer getBroker() {
+        User user =  repository.findAllByRole(Role.ROLE_SUPER_ADMIN).get(0);
+        return user.getId();
+    }
+
     
 
 }

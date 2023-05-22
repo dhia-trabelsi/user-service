@@ -1,6 +1,9 @@
 package com.pfe.util;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
+
 
 public class Authuser {
 
@@ -10,4 +13,11 @@ public class Authuser {
     public Integer getAuthId() {
         return restTemplate.getForObject(url, Integer.class);
     }
+
+
+    @PostMapping
+    public Integer getId(@RequestBody Integer id) {
+        return id;
+    }
+
 }

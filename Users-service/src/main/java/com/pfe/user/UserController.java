@@ -175,6 +175,11 @@ public class UserController {
         }
     }
 
+    @GetMapping("/broker")
+    public ResponseEntity<Integer> getBroker() {
+        return ResponseEntity.ok(userService.getBroker());
+    }
+
 
 
 }
