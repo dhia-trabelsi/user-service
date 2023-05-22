@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pfe.util.Authuser;
 import com.pfe.util.HistoryRequest;
 import com.pfe.util.HistorySender;
 
@@ -22,6 +23,7 @@ public class AssuranceService {
     private final AssuranceRepository assuranceRepository;
 
     private final HistorySender historySender;
+    private final Authuser authuser;
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -54,7 +56,9 @@ public class AssuranceService {
         HistoryRequest historyRequest = new HistoryRequest();
         historyRequest.setMessage("Création de l'assurance " + assurance.getLib_Assur() + "à"+ date );
         historyRequest.setType("Assurance");
+        historyRequest.setUser(authuser.getAuthId());
         historyRequest.setDate(date);
+        
         historySender.sendHistory(historyRequest);
 
         return assuranceRepository.save(assuranceToSave);
@@ -74,6 +78,7 @@ public class AssuranceService {
         historyRequest.setMessage("Suppression de l'assurance " + id + "à"+ date );
         historyRequest.setType("Assurance");
         historyRequest.setDate(date);
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
     }
 
@@ -105,6 +110,7 @@ public class AssuranceService {
         historyRequest.setMessage("Modification de l'assurance " + assurance.getLib_Assur() + "à"+ date );
         historyRequest.setType("Assurance");
         historyRequest.setDate(date);
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
         
         return assuranceToUpdate;

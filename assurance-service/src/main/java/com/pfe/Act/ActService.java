@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.pfe.TypeAct.TypeAct;
 import com.pfe.TypeAct.TypeActRepository;
+import com.pfe.util.Authuser;
 import com.pfe.util.HistoryRequest;
 import com.pfe.util.HistorySender;
 import com.pfe.util.NotifRequest;
@@ -30,6 +31,7 @@ public class ActService {
         private final HistorySender historySender;
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:8082/api/user/roleID?role=ROLE_ADMIN";
+        private final Authuser authuser;
 
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -71,6 +73,7 @@ public class ActService {
                 "nouveau acte médical : " + act.getLib() + " est ajouté au type : " + existingTypeAct.getLib() + " à " + date);
         historyRequest.setDate(date);
         historyRequest.setType("ACT");
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
 
 
@@ -108,6 +111,7 @@ public class ActService {
         historyRequest.setMessage("acte médical : " + id + " est supprimé à " + date);
         historyRequest.setDate(date);
         historyRequest.setType("ACT");
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
     }
 
@@ -151,6 +155,7 @@ public class ActService {
         historyRequest.setMessage("acte médical : " + act.getLib() + " est modifié à " + date);
         historyRequest.setDate(date);
         historyRequest.setType("ACT");
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
 
         return actRepository.save(actToUpdate);

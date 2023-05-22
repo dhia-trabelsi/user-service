@@ -17,4 +17,5 @@ public class HistoryRequest {
 
     private Date date;
     private String type;
+    private Integer user;
 }

@@ -115,9 +115,8 @@ public class AuthenticationService {
     historyRequest.setUser(userService.getAuthenticatedUser().getId());
     historyRequest.setMessage("nouveau adherent : " + user.getFirstname() + " " + user.getLastname() + " a rejoint la societe "
     + user.getSocieteId());
+    historyRequest.setUser(userService.getAuthenticatedUser().getId());
     historySender.sendHistory(historyRequest);
-
-
     return AuthenticationResponse.builder()
         .token(jwtToken)
         .build();

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pfe.util.Authuser;
 import com.pfe.util.HistoryRequest;
 import com.pfe.util.HistorySender;
 
@@ -22,6 +23,7 @@ public class SocieteService {
 
     private final SocieteRepository societeRepository;
     private final HistorySender historySender;
+    private final Authuser authuser;
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -52,6 +54,7 @@ public class SocieteService {
         HistoryRequest historyRequest = new HistoryRequest();
         historyRequest.setMessage("Création de la société " + societe.getLib() + "à"+ date );
         historyRequest.setType("Societe");
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
 
         return societeRepository.save(newSociete);
@@ -73,6 +76,7 @@ public class SocieteService {
         HistoryRequest historyRequest = new HistoryRequest();
         historyRequest.setMessage("Suppression de la société " + societeRepository.findById(id).orElseThrow().getLib() + "à"+ date );
         historyRequest.setType("Societe");
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
 
     }
@@ -101,6 +105,7 @@ public class SocieteService {
         HistoryRequest historyRequest = new HistoryRequest();
         historyRequest.setMessage("Modification de la société " + societe.getLib() + "à"+ date );
         historyRequest.setType("Societe");
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
         return societeToUpdate;
     }

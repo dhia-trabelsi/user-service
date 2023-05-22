@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.pfe.util.Authuser;
 import com.pfe.util.HistoryRequest;
 import com.pfe.util.HistorySender;
 import com.pfe.util.NotifRequest;
@@ -26,6 +27,7 @@ public class TypeActService {
     private final TypeActRepository typeActRepository;
     private final NotifSender notifSender;
     private final HistorySender historySender;
+    private final Authuser authuser;
 
     RestTemplate restTemplate = new RestTemplate();
     String url = "http://localhost:8082/api/user/roleID?role=ROLE_ADMIN";
@@ -59,6 +61,7 @@ public class TypeActService {
         historyRequest.setMessage("Création du type des actes médicaux " + typeAct.getLib() + "à"+ date );
         historyRequest.setType("TYPEACT");
         historyRequest.setDate(date);
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
 
         return typeActRepository.save(newTypeAct);
@@ -81,6 +84,7 @@ public class TypeActService {
         historyRequest.setMessage("Suppression du type des actes médicaux " + typeActRepository.findById(id).get().getLib() + "à"+ date);
         historyRequest.setType("TYPEACT");
         historyRequest.setDate(date);
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
     }
 
@@ -108,6 +112,7 @@ public class TypeActService {
         historyRequest.setMessage("Modification du type des actes médicaux " + typeAct.getLib() + "à"+ date );
         historyRequest.setType("TYPEACT");
         historyRequest.setDate(date);
+        historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
 
         return typeActRepository.save(typeActToUpdate);

@@ -1,11 +1,17 @@
 package com.pfe.Bareme;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.pfe.Act.Act;
 import com.pfe.Act.ActService;
+import com.pfe.util.Authuser;
+import com.pfe.util.HistoryRequest;
+import com.pfe.util.HistorySender;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +21,11 @@ public class BaremeService {
     
     private final BaremeRepository baremeRepository;
     private final ActService actService;
+    private Authuser authuser;
+    private HistorySender historySender;
+
+    LocalDateTime localDateTime = LocalDateTime.now();
+    Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
     public Bareme save(Bareme bareme) {
         Bareme newBareme = Bareme.builder()
@@ -45,13 +56,22 @@ public class BaremeService {
                 act.setPiece(newBareme.getPiece());
                 act.setVign(newBareme.getVign());
                 actService.update(act.getId(), act);
- 
+                
+        HistoryRequest historyRequest = new HistoryRequest();
+
+        historyRequest.setMessage("Création du barème " + bareme.getAbrv() + "à"+ date );
+        historyRequest.setType("Bareme");
+        historyRequest.setUser(authuser.getAuthId());
+        historyRequest.setDate(date);
+        historySender.sendHistory(historyRequest);
+
 
             return baremeRepository.save(newBareme);
     }
 
     public Bareme getById(Long id) {
         return baremeRepository.findById(id).orElseThrow();
+
     }
 
     public void delete(Long id) {
@@ -79,6 +99,8 @@ public class BaremeService {
                 .femmeEnc(bareme.getFemmeEnc())
                 .dureeEnc(bareme.getDureeEnc())
                 .build();
+
+                
             return baremeRepository.save(newBareme);
             
     }
