@@ -180,6 +180,31 @@ public class UserController {
         return ResponseEntity.ok(userService.getBroker());
     }
 
+    @GetMapping("/plafond/{id}")
+    public ResponseEntity<?> getPlafond(@PathVariable Integer id) {
+
+        if (userService.getPlafon(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userService.getPlafon(id));
+        }
+    }
+
+    @GetMapping("/soc/{id}")
+    public ResponseEntity<?> getSoc(@PathVariable Integer id) {
+
+        if (userService.getSocieteId(id) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userService.getSocieteId(id));
+        }
+    }
+
+    @PostMapping("/setPlafond")
+    public void setPlafond(@RequestParam Double plafond, @RequestParam Integer id) {
+
+        userService.setPlafon(plafond, id);
+    }
 
 
 }

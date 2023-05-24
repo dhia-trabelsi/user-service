@@ -1,9 +1,9 @@
-package com.pfe.Act;
+package com.pfe.rembursement;
 
 import java.util.Date;
 
 import com.pfe.Bds.Bulltin;
-import com.pfe.TypeAct.TypeAct;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,36 +21,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ACT")
-public class Act {
+@Table(name = "REMBURSEMENT")
+public class rembursement {
+    
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer Id;
-
-    private String abrv;
-    private String lib;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer RembId;
 
     private Date date;
-    private Double taux;
-    private String plafonne;
-    private String ctr;
-    private String sexe;
-    private String parent;
-
-    private String duree;
-    private String indice;
+    private Integer actId;
     private Double mtt;
-    private Double plafond;
-    private String piece;
-    private String vign;
+    private Double mttRemb;
 
     @ManyToOne
-    @JoinColumn(name = "typeAct")
-    private TypeAct typeAct;
-
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "Id")
     private Bulltin bulltin;
+    
 
 }

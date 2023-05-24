@@ -68,23 +68,39 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public User updateUser(User user, Integer id) {
-        return repository.findById(id)
-                .map(u -> {
-                    u.setFirstname(user.getFirstname());
-                    u.setLastname(user.getLastname());
-                    u.setCin(user.getCin());
-                    u.setSexe(user.getSexe());
-                    u.setEmail(user.getEmail());
-                    u.setAge(user.getAge());
-                    u.setAddress(user.getAddress());
-                    u.setPhone(user.getPhone());
-                    u.setCoinjoint(user.getCoinjoint());
-                    return repository.save(u);
-                })
-                .orElseThrow(
-                        () -> new RuntimeException("User not found"));
+    public User updateUser(User updatedUser, Integer id) {
+        User existingUser = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    
+        if (updatedUser.getFirstname() != null) {
+            existingUser.setFirstname(updatedUser.getFirstname());
+        }
+        if (updatedUser.getLastname() != null) {
+            existingUser.setLastname(updatedUser.getLastname());
+        }
+        if (updatedUser.getCin() != null) {
+            existingUser.setCin(updatedUser.getCin());
+        }
+        if (updatedUser.getSexe() != null) {
+            existingUser.setSexe(updatedUser.getSexe());
+        }
+        if (updatedUser.getEmail() != null) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getPhone() != null) {
+            existingUser.setPhone(updatedUser.getPhone());
+        }
+        if (updatedUser.getAddress() != null) {
+            existingUser.setAddress(updatedUser.getAddress());
+        }
+        if (updatedUser.getAge() != null) {
+            existingUser.setAge(updatedUser.getAge());
+        }
+        if (updatedUser.getCoinjoint() != null) {
+            existingUser.setCoinjoint(updatedUser.getCoinjoint());
+        }
+        return repository.save(existingUser);
     }
+    
 
     private UserDTO convertToDTO(User user) {
         return UserDTO.builder()
@@ -148,7 +164,10 @@ public class UserService {
     }
 
 
-
+    public Integer getSocieteId(Integer id) {
+        User user = repository.findById(id).orElseThrow();
+        return user.getSocieteId();
+    }
     
 
     public void createPasswordResetTokenForUser(User user, String passwordResetToken) {
@@ -183,6 +202,17 @@ public class UserService {
     public Integer getBroker() {
         User user =  repository.findAllByRole(Role.ROLE_SUPER_ADMIN).get(0);
         return user.getId();
+    }
+
+    public Double getPlafon(Integer id){
+        return repository.findById(id).get().getPlafond();
+
+    }
+
+    public void setPlafon(Double plafond, Integer id){
+        User user = repository.findById(id).get();
+        user.setPlafond(plafond + user.getPlafond());
+        repository.save(user);
     }
 
     

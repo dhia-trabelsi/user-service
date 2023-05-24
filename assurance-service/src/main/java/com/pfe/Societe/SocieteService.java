@@ -55,6 +55,7 @@ public class SocieteService {
         historyRequest.setMessage("Création de la société " + societe.getLib() + "à"+ date );
         historyRequest.setType("Societe");
         historyRequest.setUser(authuser.getAuthId());
+        historyRequest.setDate(date);
         historySender.sendHistory(historyRequest);
 
         return societeRepository.save(newSociete);
@@ -77,6 +78,7 @@ public class SocieteService {
         historyRequest.setMessage("Suppression de la société " + societeRepository.findById(id).orElseThrow().getLib() + "à"+ date );
         historyRequest.setType("Societe");
         historyRequest.setUser(authuser.getAuthId());
+        historyRequest.setDate(date);
         historySender.sendHistory(historyRequest);
 
     }
@@ -107,6 +109,7 @@ public class SocieteService {
         historyRequest.setType("Societe");
         historyRequest.setUser(authuser.getAuthId());
         historySender.sendHistory(historyRequest);
+        historyRequest.setDate(date);
         return societeToUpdate;
     }
     

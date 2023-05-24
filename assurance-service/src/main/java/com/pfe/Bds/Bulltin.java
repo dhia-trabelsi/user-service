@@ -6,6 +6,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pfe.Act.Act;
 import com.pfe.Borderau.Borderau;
+import com.pfe.rembursement.rembursement;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -50,6 +52,9 @@ public class Bulltin {
     
     @OneToMany(mappedBy = "Id")
     private List<Act> acts;
+
+    @OneToMany(mappedBy = "RembId")
+    private List<rembursement> rembs;
 
 
 }

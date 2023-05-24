@@ -28,11 +28,11 @@ public class Bareme {
     private Long Cod_Assur;
     private String abrv;
     private String indice;
-    private float mtt;
+    private Double mtt;
     private Date date;
-    private float taux;
+    private Double taux;
     private String plafonne;
-    private float plafond;
+    private Double plafond;
     private String piece;
     private String vign;
     private String dureeAct;

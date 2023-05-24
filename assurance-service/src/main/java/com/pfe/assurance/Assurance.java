@@ -31,17 +31,17 @@ public class Assurance {
     private String Tel_Assur;
     private String Fax_Assur;
     private String Prefixe;
-    private double Duree_Bult_Mut;
-    private double Taux_Mut;
-    private double Plaf_Mut;
+    private Double Duree_Bult_Mut;
+    private Double Taux_Mut;
+    private Double Plaf_Mut;
     private Date Dat_Contrat;
     private int Delai_Cvisite;
     private int Age_Between_Enf;
-    private float mntAdher;
-    private float mntEnf;
-    private float mntConj;
-    private float mntPere;
-    private float mntMere;
+    private Double mntAdher;
+    private Double mntEnf;
+    private Double mntConj;
+    private Double mntPere;
+    private Double mntMere;
     private String ProratPec;
     private String filepath;
 

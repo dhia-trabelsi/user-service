@@ -57,5 +57,7 @@ public class bulltinService {
         return "image uploaded successfully...";
     }
 
+    
+
  
 }

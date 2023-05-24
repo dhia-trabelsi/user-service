@@ -31,7 +31,7 @@ public class SecurityConfiguration {
           .csrf()
           .disable()
           .authorizeHttpRequests()
-          .requestMatchers("/api/auth/**","/api/password/password-reset-request","/api/password/password-reset","/api/user/roleID","/api/user/idbyemail","api/user/broker")
+          .requestMatchers("/api/auth/**","/api/password/password-reset-request","/api/password/password-reset","/api/user/roleID","/api/user/idbyemail","api/user/broker","api/user/plafond/{id}","api/user/soc/{id}","api/user/setPlafond")
             .permitAll()
         
           // .requestMatchers("/notification/**")
