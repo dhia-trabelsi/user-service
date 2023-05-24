@@ -33,10 +33,8 @@ public class rembursement {
     private Integer actId;
     private Double mtt;
     private Double mttRemb;
+    private Integer bulltinId;
 
-    @ManyToOne
-    @JoinColumn(name = "Id")
-    private Bulltin bulltin;
     
 
 }

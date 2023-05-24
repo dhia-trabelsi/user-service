@@ -126,20 +126,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/authid")
-    public ResponseEntity<?> getAuthId() {
-        if (userService.getAuthenticatedUser() == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(userService.getAuthenticatedUser().getId());
-        }
-    }
-
-    // @PostMapping("/image/{id}")
-    // public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer id) throws IOException {
-    //     return ResponseEntity.ok(userService.uploadeImage(file,id));
-    // }
-
     @PostMapping("/image/{id}")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer id) throws IOException {
         return ResponseEntity.ok(userService.uploadImageToFileSystem(file, id));

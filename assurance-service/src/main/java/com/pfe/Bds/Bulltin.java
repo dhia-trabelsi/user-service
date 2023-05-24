@@ -43,6 +43,8 @@ public class Bulltin {
     private Date dateSaisie;
     private String valider;
     private String filepath;
+    private Double mtt;
+    private Double mttRemb;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -52,9 +54,5 @@ public class Bulltin {
     
     @OneToMany(mappedBy = "Id")
     private List<Act> acts;
-
-    @OneToMany(mappedBy = "RembId")
-    private List<rembursement> rembs;
-
 
 }

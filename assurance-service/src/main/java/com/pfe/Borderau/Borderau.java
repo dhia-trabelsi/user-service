@@ -2,8 +2,6 @@ package com.pfe.Borderau;
 
 import java.util.Date;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pfe.Bds.Bulltin;
 
 import jakarta.persistence.Entity;
