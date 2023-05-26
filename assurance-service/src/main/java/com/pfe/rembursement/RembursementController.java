@@ -42,6 +42,11 @@ public class RembursementController {
         return ResponseEntity.ok(rembursementService.getAllByBulletinId(id));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(rembursementService.getAll());
+    }
+
 
 
 

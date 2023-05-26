@@ -7,5 +7,6 @@ public enum HistoryType {
     BULLETIN,
     BORDEREAU,
     ADHERENT,
-    ADMIN
+    ADMIN,
+    Bareme
 }

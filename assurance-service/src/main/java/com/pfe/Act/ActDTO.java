@@ -24,6 +24,9 @@ public class ActDTO {
     private String ctr;
     private String sexe;
     private String parent;
+    private Double mtt;
+    private Double plafond;
+    private Double taux;
     private  TypeAct typeAct;
     
 }

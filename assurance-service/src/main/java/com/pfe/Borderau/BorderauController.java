@@ -34,4 +34,9 @@ public class BorderauController {
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(borderauService.getAll());
     }
+
+    @GetMapping("statistique")
+    public ResponseEntity<?> getAllStatistique() {
+        return ResponseEntity.ok(borderauService.getAllStatistique());
+    }
 }

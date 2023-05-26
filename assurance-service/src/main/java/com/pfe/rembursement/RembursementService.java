@@ -15,6 +15,8 @@ import com.pfe.Act.ActRepository;
 import com.pfe.Assurance.AssuranceRepository;
 import com.pfe.Bds.Bulltin;
 import com.pfe.Bds.BulltinRepository;
+import com.pfe.Borderau.Borderau;
+import com.pfe.Borderau.BorderauRepository;
 import com.pfe.Societe.SocieteRepository;
 
 import jakarta.transaction.Transactional;
@@ -29,6 +31,7 @@ public class RembursementService {
     private final SocieteRepository societeRepository;
     private final AssuranceRepository assuranceRepository;
     private final BulltinRepository bulltinRepository;
+    private final BorderauRepository borderauRepository;
     RestTemplate restTemplate = new RestTemplate();
 
     String url = "http://localhost:8082/api/user/plafond/";
@@ -55,9 +58,11 @@ public class RembursementService {
         Bulltin bulltin = bulltinRepository.findById(existingRembursement.getBulltinId())
                 .orElseThrow(() -> new RuntimeException("Bulletin not found"));
         Integer userId = bulltinRepository.findById(existingRembursement.getBulltinId()).get().getUserID();
+        Borderau borderau = bulltin.getBorderau();
+
 
         bulltin.setMtt(bulltin.getMtt() + existingRembursement.getMtt());
-        
+        borderau.setMNet(borderau.getMNet() + existingRembursement.getMtt());
         Double plafond = restTemplate.getForObject(url + userId, Double.class);
         Integer societeId = restTemplate.getForObject(url2 + userId, Integer.class);
 
@@ -96,7 +101,9 @@ public class RembursementService {
 
          existingRembursement.setMttRemb(montant);
          bulltin.setMttRemb(bulltin.getMttRemb() + montant);
+            borderau.setMHonor(borderau.getMHonor() + montant);
             bulltinRepository.save(bulltin);
+            borderauRepository.save(borderau);
          rembursementRepository.save(existingRembursement);
 
         // update user plafond with restTemplate
@@ -150,6 +157,10 @@ public class RembursementService {
        public List<rembursement> getAllByBulletinId(Integer id){
         return rembursementRepository.findAllByBulltinId(id);
        }
+
+    public List<rembursement> getAll() {
+        return rembursementRepository.findAll();
+    }
 
 
 }

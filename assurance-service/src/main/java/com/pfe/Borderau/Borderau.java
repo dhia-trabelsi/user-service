@@ -31,9 +31,10 @@ public class Borderau {
     private Date DateRem;
     private Boolean envoyer;
     private Boolean valider;
-    private float mHonor;
-    private float mNet;
+    private Double mHonor;
+    private Double mNet;
     private long assur;
+    private int societeId;
 
     
     @OneToMany(mappedBy = "borderau")

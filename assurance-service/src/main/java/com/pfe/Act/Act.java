@@ -50,7 +50,7 @@ public class Act {
     private TypeAct typeAct;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "bulltin_id")
     private Bulltin bulltin;
 
 }

@@ -21,8 +21,8 @@ public class BaremeService {
     
     private final BaremeRepository baremeRepository;
     private final ActService actService;
-    private Authuser authuser;
-    private HistorySender historySender;
+    private final Authuser authuser;
+    private final HistorySender historySender;
 
     LocalDateTime localDateTime = LocalDateTime.now();
     Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());

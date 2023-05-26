@@ -48,6 +48,9 @@ public class ActService {
                 .ctr(act.getCtr())
                 .sexe(act.getSexe())
                 .parent(act.getParent())
+                .mtt(act.getMtt())
+                .plafond(act.getPlafond())
+                .taux(act.getTaux())
                 .typeAct(act.getTypeAct())
                 .build();
 
