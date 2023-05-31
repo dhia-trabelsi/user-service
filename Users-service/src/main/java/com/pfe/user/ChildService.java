@@ -33,7 +33,6 @@ public class ChildService {
 
     public List<Child> findByUserId(Integer id) {
 
-        User user = userRepository.findById(id).get();
-        return user.getChildren();
+        return childRepository.findByUserId(id);
     }
 }

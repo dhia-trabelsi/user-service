@@ -30,8 +30,10 @@ public class Child {
     private Date birthDate;
 
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    // @ManyToOne
+    // @JoinColumn(name = "user_id")
+    // private User user;
 
+
+    private Integer userId;
 }

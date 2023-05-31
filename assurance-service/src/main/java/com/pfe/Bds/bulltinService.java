@@ -57,6 +57,12 @@ public class bulltinService {
         return "image uploaded successfully...";
     }
 
+    public Bulltin valider(int id) {
+        Bulltin bulltin = bulltinRepository.findById(id).orElseThrow();
+        bulltin.setValider(true);
+        return bulltinRepository.save(bulltin);
+    }
+
     
 
  

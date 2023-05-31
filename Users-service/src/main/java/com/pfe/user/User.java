@@ -48,17 +48,17 @@ public class User implements UserDetails {
   private int societeId;
   private Double plafond;
 
-  
+
   @Enumerated(EnumType.STRING)
   private Role role;
   
   private String filepath;
 
 
-  @JsonIgnore
-  @Builder.Default
-  @OneToMany(fetch = FetchType.EAGER)
-  private List<Child> children = new ArrayList<>();
+  // @JsonIgnore
+  // @Builder.Default
+  // @OneToMany(fetch = FetchType.EAGER)
+  // private List<Child> children = new ArrayList<>();
 
   @JsonIgnore
   @OneToMany(mappedBy = "user")
@@ -99,7 +99,7 @@ public class User implements UserDetails {
     return true;
   }
 
-  public List<Child> getChildren() {
-    return this.children;
-}
+//   public List<Child> getChildren() {
+//     return this.children;
+// }
 }

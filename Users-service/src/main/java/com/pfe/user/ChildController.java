@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/child")
+@RequestMapping("/api/child")
 @RequiredArgsConstructor
 public class ChildController {
     

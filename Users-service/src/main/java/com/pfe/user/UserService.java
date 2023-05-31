@@ -193,11 +193,11 @@ public class UserService {
         return user.getId();
     }
 
-    public List<Child> getChilds(Integer id) {
-        User user = repository.findById(id).orElseThrow();
+    // public List<Child> getChilds(Integer id) {
+    //     User user = repository.findById(id).orElseThrow();
 
-        return childRepository.findAllByUser(user);
-    }
+    //     return childRepository.findAllByUser(user);
+    // }
 
     public Integer getBroker() {
         User user =  repository.findAllByRole(Role.ROLE_SUPER_ADMIN).get(0);
