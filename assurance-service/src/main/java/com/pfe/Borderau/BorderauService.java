@@ -53,6 +53,7 @@ public class BorderauService {
             list.add(getStatistique(borderau.getSocieteId()));
         }
         return list;
+        
     }
 
 

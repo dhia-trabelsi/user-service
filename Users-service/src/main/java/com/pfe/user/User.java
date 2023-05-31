@@ -47,12 +47,15 @@ public class User implements UserDetails {
   private String coinjoint;
   private int societeId;
   private Double plafond;
+
+  
   @Enumerated(EnumType.STRING)
   private Role role;
   
   private String filepath;
 
 
+  @JsonIgnore
   @Builder.Default
   @OneToMany(fetch = FetchType.EAGER)
   private List<Child> children = new ArrayList<>();

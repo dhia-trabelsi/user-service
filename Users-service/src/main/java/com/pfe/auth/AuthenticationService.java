@@ -63,21 +63,21 @@ public class AuthenticationService {
         .societeId(request.getSocieteId())
         .build();
 
-    System.out.println("Request children: " + request.getChildren());
+    
 
     var savedUser = repository.save(user);
 
-    if (request.getChildren() != null) {
-      for (ChldDto childDto : request.getChildren()) {
-        Child child = Child.builder()
-            .name(childDto.getName())
-            .birthDate(childDto.getBirthDate())
-            .user(savedUser)
-            .build();
-            childRepository.save(child);
-        user.getChildren().add(child);
-      }
-    }
+    // if (request.getChildren() != null) {
+    //   for (ChldDto childDto : request.getChildren()) {
+    //     Child child = Child.builder()
+    //         .name(childDto.getName())
+    //         .birthDate(childDto.getBirthDate())
+    //         .user(savedUser)
+    //         .build();
+    //         childRepository.save(child);
+    //     user.getChildren().add(child);
+    //   }
+    // }
     
     
     var jwtToken = jwtService.generateToken(user);

@@ -30,7 +30,6 @@ public class Child {
     private Date birthDate;
 
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

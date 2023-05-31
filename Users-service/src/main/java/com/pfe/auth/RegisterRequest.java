@@ -25,6 +25,6 @@ public class RegisterRequest {
     private String password;
     private String coinjoint;
     private int societeId;
-    private List<ChldDto> children = new ArrayList<>();
+    // private List<ChldDto> children = new ArrayList<>();
 
 }
