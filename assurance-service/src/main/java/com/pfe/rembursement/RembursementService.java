@@ -46,12 +46,9 @@ public class RembursementService {
         return rembursementRepository.findById(id).orElseThrow(() -> new RuntimeException("Rembursement not found"));
     }
 
-
-    
-
     public rembursement rembourser(rembursement existingRembursement) {
         // rembursement existingRembursement = rembursementRepository.findById(id)
-        //         .orElseThrow(() -> new RuntimeException("Rembursement not found"));
+        // .orElseThrow(() -> new RuntimeException("Rembursement not found"));
 
         System.out.println(existingRembursement);
 
@@ -60,12 +57,10 @@ public class RembursementService {
         Integer userId = bulltinRepository.findById(existingRembursement.getBulltinId()).get().getUserID();
         Borderau borderau = bulltin.getBorderau();
 
-
         bulltin.setMtt(bulltin.getMtt() + existingRembursement.getMtt());
         borderau.setMNet(borderau.getMNet() + existingRembursement.getMtt());
         Double plafond = restTemplate.getForObject(url + userId, Double.class);
         Integer societeId = restTemplate.getForObject(url2 + userId, Integer.class);
-
 
         Long assur = societeRepository.findById(societeId).get().getAssurance();
         Double plafonAssur = assuranceRepository.findById(assur).get().getPlaf_Mut();
@@ -100,12 +95,12 @@ public class RembursementService {
                 break;
         }
 
-         existingRembursement.setMttRemb(montant);
-         bulltin.setMttRemb(bulltin.getMttRemb() + montant);
-            borderau.setMHonor(borderau.getMHonor() + montant);
-            bulltinRepository.save(bulltin);
-            borderauRepository.save(borderau);
-         rembursementRepository.save(existingRembursement);
+        existingRembursement.setMttRemb(montant);
+        bulltin.setMttRemb(bulltin.getMttRemb() + montant);
+        borderau.setMHonor(borderau.getMHonor() + montant);
+        bulltinRepository.save(bulltin);
+        borderauRepository.save(borderau);
+        rembursementRepository.save(existingRembursement);
 
         // update user plafond with restTemplate
         HttpHeaders headers = new HttpHeaders();
@@ -119,7 +114,6 @@ public class RembursementService {
         restTemplate.exchange(builder.toUriString(), HttpMethod.POST, requestEntity, Void.class);
 
         return existingRembursement;
-
 
     }
 
@@ -142,6 +136,7 @@ public class RembursementService {
     public Double Chirurgie(Act act, rembursement rembursement) {
         return (rembursement.getMtt() * act.getTaux()) / 100;
     }
+
     public Double Hospitalisation(Act act, rembursement rembursement) {
         return (rembursement.getMtt() * act.getTaux()) / 100;
     }
@@ -149,12 +144,14 @@ public class RembursementService {
     @Transactional
     public void deleteAllByBulletinId(Integer id) {
         rembursementRepository.deleteAllByBulltinId(id);
-       }
+    }
 
-       public void delete(Integer id){
+    public void delete(Integer id) {
 
-        rembursement rembursement = rembursementRepository.findById(id).orElseThrow(() -> new RuntimeException("Rembursement not found"));
-        Bulltin bulltin = bulltinRepository.findById(rembursement.getBulltinId()).orElseThrow(() -> new RuntimeException("Bulletin not found"));
+        rembursement rembursement = rembursementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rembursement not found"));
+        Bulltin bulltin = bulltinRepository.findById(rembursement.getBulltinId())
+                .orElseThrow(() -> new RuntimeException("Bulletin not found"));
         Integer userId = bulltinRepository.findById(rembursement.getBulltinId()).get().getUserID();
         Borderau borderau = bulltin.getBorderau();
         bulltin.setMttRemb(bulltin.getMttRemb() - rembursement.getMttRemb());
@@ -166,17 +163,26 @@ public class RembursementService {
 
         Double plafond = restTemplate.getForObject(url + userId, Double.class);
         Double montant = plafond - rembursement.getMttRemb();
-        
-        rembursementRepository.deleteById(id);
-       }
 
-       public List<rembursement> getAllByBulletinId(Integer id){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url3)
+                .queryParam("plafond", montant)
+                .queryParam("id", userId);
+        // console debug
+        System.out.println(builder.toUriString());
+        restTemplate.exchange(builder.toUriString(), HttpMethod.POST, requestEntity, Void.class);
+
+        rembursementRepository.deleteById(id);
+    }
+
+    public List<rembursement> getAllByBulletinId(Integer id) {
         return rembursementRepository.findAllByBulltinId(id);
-       }
+    }
 
     public List<rembursement> getAll() {
         return rembursementRepository.findAll();
     }
-
 
 }
