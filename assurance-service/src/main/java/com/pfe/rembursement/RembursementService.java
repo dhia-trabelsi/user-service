@@ -66,6 +66,7 @@ public class RembursementService {
         Double plafond = restTemplate.getForObject(url + userId, Double.class);
         Integer societeId = restTemplate.getForObject(url2 + userId, Integer.class);
 
+
         Long assur = societeRepository.findById(societeId).get().getAssurance();
         Double plafonAssur = assuranceRepository.findById(assur).get().getPlaf_Mut();
 
@@ -151,6 +152,21 @@ public class RembursementService {
        }
 
        public void delete(Integer id){
+
+        rembursement rembursement = rembursementRepository.findById(id).orElseThrow(() -> new RuntimeException("Rembursement not found"));
+        Bulltin bulltin = bulltinRepository.findById(rembursement.getBulltinId()).orElseThrow(() -> new RuntimeException("Bulletin not found"));
+        Integer userId = bulltinRepository.findById(rembursement.getBulltinId()).get().getUserID();
+        Borderau borderau = bulltin.getBorderau();
+        bulltin.setMttRemb(bulltin.getMttRemb() - rembursement.getMttRemb());
+        bulltin.setMtt(bulltin.getMtt() - rembursement.getMtt());
+        borderau.setMNet(borderau.getMNet() - rembursement.getMtt());
+        borderau.setMHonor(borderau.getMHonor() - rembursement.getMttRemb());
+        borderauRepository.save(borderau);
+        bulltinRepository.save(bulltin);
+
+        Double plafond = restTemplate.getForObject(url + userId, Double.class);
+        Double montant = plafond - rembursement.getMttRemb();
+        
         rembursementRepository.deleteById(id);
        }
 
