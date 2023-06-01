@@ -41,5 +41,10 @@ public class BulltinController {
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Integer id) throws IOException {
         return ResponseEntity.ok(bulltinService.uploadImageToFileSystem(file, id));
     }
+
+    @PostMapping("/valider/{id}")
+    public ResponseEntity<?> valider(@PathVariable int id) {
+        return ResponseEntity.ok(bulltinService.valider(id));
+    }
     
 }

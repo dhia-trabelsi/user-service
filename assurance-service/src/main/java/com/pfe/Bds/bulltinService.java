@@ -59,7 +59,7 @@ public class bulltinService {
 
     public Bulltin valider(int id) {
         Bulltin bulltin = bulltinRepository.findById(id).orElseThrow();
-        bulltin.setValider(true);
+        bulltin.setValider("true");
         return bulltinRepository.save(bulltin);
     }
 

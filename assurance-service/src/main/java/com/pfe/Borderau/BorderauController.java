@@ -39,4 +39,16 @@ public class BorderauController {
     public ResponseEntity<?> getAllStatistique() {
         return ResponseEntity.ok(borderauService.getAllStatistique());
     }
+
+    @PostMapping("/envoyer/{id}")
+    public ResponseEntity<?> envoyer(@PathVariable Long id) {
+        return ResponseEntity.ok(borderauService.envoyer(id));
+    }
+
+    @PostMapping("/valider/{id}")
+    public ResponseEntity<?> valider(@PathVariable Long id) {
+        return ResponseEntity.ok(borderauService.valider(id));
+    }
+
+    
 }

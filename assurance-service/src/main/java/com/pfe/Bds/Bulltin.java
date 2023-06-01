@@ -41,7 +41,7 @@ public class Bulltin {
     private Integer mois;
     private Integer ans;
     private Date dateSaisie;
-    private Boolean valider;
+    private String valider;
     private String filepath;
     private Double mtt;
     private Double mttRemb;

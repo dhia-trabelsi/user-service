@@ -29,8 +29,8 @@ public class Borderau {
     private Date date;
     private int nbs;
     private Date DateRem;
-    private Boolean envoyer;
-    private Boolean valider;
+    private String envoyer;
+    private String valider;
     private Double mHonor;
     private Double mNet;
     private long assur;

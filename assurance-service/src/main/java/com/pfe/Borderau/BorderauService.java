@@ -59,13 +59,13 @@ public class BorderauService {
 
     public Borderau envoyer(Long id) {
         Borderau borderau = borderauRepository.findById(id).get();
-        borderau.setEnvoyer(true);
+        borderau.setEnvoyer("true");
         return borderauRepository.save(borderau);
     }
 
     public Borderau valider(Long id) {
         Borderau borderau = borderauRepository.findById(id).get();
-        borderau.setValider(true);
+        borderau.setValider("true");
         return borderauRepository.save(borderau);
     }
 
