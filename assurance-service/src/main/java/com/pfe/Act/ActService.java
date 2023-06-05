@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.pfe.Bareme.Bareme;
+import com.pfe.Bareme.BaremeRepository;
 import com.pfe.TypeAct.TypeAct;
 import com.pfe.TypeAct.TypeActRepository;
 import com.pfe.util.Authuser;
@@ -32,6 +34,7 @@ public class ActService {
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:8082/api/user/roleID?role=ROLE_ADMIN";
         private final Authuser authuser;
+        private final BaremeRepository baremeRepository;
 
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -93,6 +96,12 @@ public class ActService {
     }
 
     public void delete(int id) {
+
+
+        Act act = actRepository.findById(id).orElseThrow();
+        Bareme bareme = baremeRepository.findByAbrv(act.getAbrv());
+        baremeRepository.delete(bareme);
+
         actRepository.deleteById(id);
         ResponseEntity<List<Integer>> response = restTemplate.exchange(
                 url,

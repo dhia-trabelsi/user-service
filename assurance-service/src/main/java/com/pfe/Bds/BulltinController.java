@@ -46,5 +46,11 @@ public class BulltinController {
     public ResponseEntity<?> valider(@PathVariable int id) {
         return ResponseEntity.ok(bulltinService.valider(id));
     }
+
+    @PostMapping("/refuser/{id}")
+    public ResponseEntity<?> refuser(@PathVariable int id) {
+        return ResponseEntity.ok(bulltinService.refuser(id));
+    }
+
     
 }

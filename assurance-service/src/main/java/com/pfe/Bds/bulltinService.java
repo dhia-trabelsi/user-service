@@ -23,7 +23,7 @@ public class bulltinService {
 
     public Bulltin saveBulltin(Bulltin bulltin, long code) {
        Borderau b = borderauRepository.findById(code).orElseThrow(() -> new RuntimeException("Borderau not found"));
-        
+        bulltin.setValider("en cours");
         bulltin.setBorderau(b);
         return bulltinRepository.save(bulltin);
     }
@@ -62,6 +62,13 @@ public class bulltinService {
         bulltin.setValider("true");
         return bulltinRepository.save(bulltin);
     }
+    
+    public Bulltin refuser(int id) {
+        Bulltin bulltin = bulltinRepository.findById(id).orElseThrow();
+        bulltin.setValider("false");
+        return bulltinRepository.save(bulltin);
+    }
+    
 
     
 

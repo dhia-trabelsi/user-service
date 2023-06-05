@@ -55,6 +55,7 @@ public class BaremeService {
                 act.setPlafond(newBareme.getPlafond());
                 act.setPiece(newBareme.getPiece());
                 act.setVign(newBareme.getVign());
+                act.setTaux(newBareme.getTaux());
                 actService.update(act.getId(), act);
                 
         HistoryRequest historyRequest = new HistoryRequest();
