@@ -162,7 +162,9 @@ public class RembursementService {
         bulltinRepository.save(bulltin);
 
         Double plafond = restTemplate.getForObject(url + userId, Double.class);
-        Double montant = plafond - rembursement.getMttRemb();
+        Double montant = -rembursement.getMttRemb();
+
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

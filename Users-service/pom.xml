@@ -39,10 +39,10 @@
     <artifactId>imgscalr-lib</artifactId>
     <version>4.2</version>
 </dependency>
-    <!-- <dependency>
+    <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-    </dependency> -->
+    </dependency>
 
     <dependency>
       <groupId>com.mysql</groupId>

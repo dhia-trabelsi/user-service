@@ -168,7 +168,17 @@ public class AuthenticationService {
     + user.getSocieteId());
     historyRequest.setUser(userService.getAuthenticatedUser().getId());
     historySender.sendHistory(historyRequest);
+    
+    EmailRequest emailRequest = new EmailRequest();
+    emailRequest.setTo(user.getEmail());
+    emailRequest.setSubject("Bienvenue chez nous");
+    String body = "Bonjour " + user.getFirstname() + " " + user.getLastname()
+        + ",\n\nNous vous souhaitons la bienvenue chez nous. votre Email : " + user.getEmail()
+        + " votre mot de passe : " + request.getPassword() + "\n\nCordialement,\n\nL'équipe de gestion de la société "
+        + user.getSocieteId();
+    emailRequest.setText(body);
 
+    emailSender.sendEmail(emailRequest);
 
     return AuthenticationResponse.builder()
         .token(jwtToken)
