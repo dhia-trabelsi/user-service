@@ -40,6 +40,22 @@ public class bulltinService {
         bulltinRepository.deleteById(id);
     }
 
+
+    public Bulltin updateBulltin(Bulltin updatedBulltin, int id) {
+        Bulltin existingBulltin = bulltinRepository.findById(id).orElseThrow(() -> new RuntimeException("Bulltin not found"));
+        existingBulltin.setUserID(updatedBulltin.getUserID());
+        existingBulltin.setAssur(updatedBulltin.getAssur());
+        existingBulltin.setPrestataire(updatedBulltin.getPrestataire());
+        existingBulltin.setDateSoin(updatedBulltin.getDateSoin());
+        existingBulltin.setMois(updatedBulltin.getMois());
+        existingBulltin.setAns(updatedBulltin.getAns());
+        existingBulltin.setDateSaisie(updatedBulltin.getDateSaisie());
+        existingBulltin.setMtt(updatedBulltin.getMtt());
+        existingBulltin.setMttRemb(updatedBulltin.getMttRemb());
+        existingBulltin.setFilepath(updatedBulltin.getFilepath());
+        return bulltinRepository.save(existingBulltin);
+    }
+
     private final String FOLDER_PATH = "C:/Users/trabe/Desktop/MyFIles/";
     
     
