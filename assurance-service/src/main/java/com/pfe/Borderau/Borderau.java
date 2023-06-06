@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import com.pfe.Bds.Bulltin;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,7 +38,7 @@ public class Borderau {
     private int societeId;
 
     
-    @OneToMany(mappedBy = "borderau")
+    @OneToMany(mappedBy = "borderau", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Bulltin> bulltins;
 
     
